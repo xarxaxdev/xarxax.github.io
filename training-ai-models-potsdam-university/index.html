@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Training AI Models at the Potsdam University Cluster | Xarxax.xyz</title>
+	<link rel="canonical" href="https://xarxax.xyz/">
+	<link rel='alternate' type='application/rss+xml' title="Xarxax.xyz RSS" href='/index.xml'>
+	<link rel='stylesheet' type='text/css' href='/style.css'>
+	<link rel="icon" href="/favicon.ico">
+	<meta name="description" content="Prequisites VPN for Potsdam University set up and working. Requested and granted access from the HPC Cluster. This means I assume you have managed to connect with ssh or something similar to the cluster. (for the scripts to work comfy) a way to use ssh without a password (GPG or using ssh-keygen for example). Containerization (docker) in a Nutshell If you google what Containerization is, I am certain you will find many tutorials that go over the documentation without any kind of abstract explanation, which is just not that helpful.">
+	<meta name="keywords" content="technology, germany, tutorial">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="index, follow">
+	<meta charset="utf-8">
+</head>
+<body>
+<main>
+<header><h1 id="tag_Training AI Models at the Potsdam University Cluster">Training AI Models at the Potsdam University Cluster</h1></header>
+<article>
+
+<h2 id="prequisites">Prequisites</h2>
+<ul>
+<li><a href="https://www.uni-potsdam.de/en/zim/angebote-loesungen/vpn">VPN for Potsdam University</a> set up and working.</li>
+<li>Requested and granted access from the <a href="https://www.uni-potsdam.de/en/zim/angebote-loesungen/hpc">HPC Cluster</a>. This means I assume you have managed to connect with ssh or something similar to the cluster.</li>
+<li>(for the scripts to work comfy) a way to use ssh without a password (GPG or using ssh-keygen for example).</li>
+</ul>
+<h2 id="containerization-docker-in-a-nutshell">Containerization (docker) in a Nutshell</h2>
+<p>If you google what Containerization is, I am certain you will find many tutorials that go over the documentation without any kind of abstract explanation, which is just not that helpful. This is a better <a href="https://www.youtube.com/watch?v=Gjnup-PuquQ">video</a>.  Let&rsquo;s see it in a simple drawing:</p>
+<p><img src="/containerization.png" alt="Containerization"></p>
+<p>We can think of recipes as &ldquo;how can I have a virtual machine that runs things on its own&rdquo;. We can think of images as a virtual machine &ldquo;created&rdquo;. But we don&rsquo;t want to have to re-do that virtual machine every time to run every separate program right? So we create containers for specfic applications.</p>
+<p>In the context of what I will be showing, the rationale for containers is more that we will do small modifications to our python code, and building an image every time would be unnecessarily and costly. We only need to rebuild the image when we are using different libraries (or different base images of course).</p>
+<h2 id="a-minimal-working-example">A minimal working example</h2>
+<p>The example can be found at <a href="https://github.com/xarxaxdev/example_apptainer">https://github.com/xarxaxdev/example_apptainer</a>.</p>
+<p>I go in this section over the relevant parts; you may want to first tinker with &ldquo;How to work with the example&rdquo; and then modify the parts of the code you want.</p>
+<h3 id="project-relevant-code">Project-relevant code:</h3>
+<p><code>generate_model.py</code> -&gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.</p>
+<p><code>requirements.txt</code> -&gt; Python libraries I needed for the main code.</p>
+<h3 id="container-and-cluster-relevant-code">Container and cluster-relevant code</h3>
+<p><code>slurm.job</code> -&gt; Defines the general parameters for running a task in slurm. Relevant lines I modified:</p>
+<ul>
+<li><code>#SBATCH --partition=gpu</code> -&gt; We want to use the partitions (machines)  that have a GPU</li>
+<li><code>#SBATCH --gpus=1</code> -&gt; How many gpus to use. You dont need more than 1.</li>
+<li><code>#SBATCH --chdir=.</code> -&gt; This is where you want to run this job, <code>.</code> means the folder you are currently in. This is why in this example you will run things from <code>/work/username/projectname</code></li>
+<li><code>#SBATCH --time=4-11:59 </code> -&gt;  I set the time to run the scrip to the max possible.</li>
+<li><code>apptainer run --nv img.sif</code> -&gt; This is the command that actually runs the container we have created. <code>img.sif</code> is the image we will be generating.</li>
+</ul>
+<p><code>recipe.def</code> -&gt; This is where we have the set of instructions that will be used to build the image that we will use for running the containers.Let&rsquo;s go over the sections it has:</p>
+<ul>
+<li>
+<pre tabindex="0"><code>  Bootstrap: docker
+  From: pytorch/pytorch 
+</code></pre></li>
+</ul>
+<p>We want to prepare the environment (Bootstrap) for docker-like images. pytorch/pytorch is a specific image for docker; we will use it as base, install some libraries and define the main script. You can find other images in <a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+<ul>
+<li>
+<pre tabindex="0"><code>  %files
+  generate_model.py .
+  requirements.txt .
+</code></pre></li>
+</ul>
+<p>This makes the 2 files available in <code>.</code> (the main folder of the image).</p>
+<ul>
+<li>
+<pre tabindex="0"><code class="language-%environment" data-lang="%environment">  export PATH=&#34;$PATH:&#34;
+</code></pre></li>
+</ul>
+<p>We want to use the current folder, so we define the  <code>PATH</code> of the image as evaluating(using <code>$</code>) the current <code>PATH</code></p>
+<ul>
+<li>
+<pre tabindex="0"><code>  %post
+  echo &#34;Installing required packages...&#34;
+  pip3 install -r requirements.txt 
+</code></pre></li>
+</ul>
+<p>Once we are done cloning the base image, the <code>%post</code> will be run to customize the image before it is aved.</p>
+<ul>
+<li>
+<pre tabindex="0"><code>  %runscript
+  echo &#34;running main script&#34; 
+  python3 generate_model.py
+</code></pre></li>
+</ul>
+<p>The main script that will run when we run the image in a container.</p>
+<h3 id="alias-that-just-made-my-life-easier">alias that just made my life easier</h3>
+<p>You will find them in : <code>readme.md</code>. It is just 4 variables and 3 aliases that make working locally, uploading the code and rerunning it simpler. You may want to add them in your <code>.bashrc</code> . The alias are:</p>
+<ul>
+<li><code>alias ssh_uni=&quot;ssh -X $CLUSTER_LOGIN&quot;</code></li>
+<li><code>alias update_example_apptainer=&quot;rsync -av -e ssh --exclude='*.pyc' --exclude='.git' --exclude='*/generated_models/*' $HOME/$project $CLUSTER_LOGIN:$PATH_IN_CLUSTER &quot;</code></li>
+<li><code>alias reverse_update_example_apptainer=&quot;rsync -av -e ssh --exclude='*.pyc' --exclude='.git*' --exclude='*generate_model.py' --exclude='*.sif' --exclude='*.bin' --exclude='*.pt'  $CLUSTER_LOGIN:$PATH_IN_CLUSTER/$project $HOME  &quot;</code></li>
+</ul>
+<h2 id="how-to-work-with-the-example">How to work with the example</h2>
+<ol>
+<li>Clone from github. Would recommend doing so in <code>/home/username</code>.</li>
+<li>Add the aliases and variables:
+<ol>
+<li>Change &ldquo;yourusername&rdquo;</li>
+<li>Change &ldquo;/example_apptainer&rdquo; for whichever folder you stored it in. You may have to tinker the alias if it&rsquo;s not in <code>/home/username</code></li>
+</ol>
+</li>
+<li><code>update_example_apptainer</code> to upload the code from the folder project to the uni cluster&rsquo;s working directory.</li>
+<li><code>ssh_uni</code> to access the cluster; then navigate to your working folder <code>/work/username/example_apptainer</code></li>
+<li>Now build the image: <code>apptainer build img.sif recipe.def</code>. This is slow.</li>
+<li>Now <code>img.sif</code> is in your folder; you can run the image as a job by running <code>apptainer run --nv img.sif</code>. Wait for the job to be complete or fail.</li>
+<li>Close ssh connection and <code>reverse_update_example_apptainer</code> to get the results from your cluster.
+<ol>
+<li>The job run successfully, good job!</li>
+<li>The job run failed; you should check the <code>slurm-*jobid*.out</code> to see what is wrong.
+<ol>
+<li>Need to modify <code>requirements.txt</code> and install new libraries? You should do so,then go to step 3 without skipping any steps.</li>
+<li>You only needed to modify <code>generate_model.py</code>? You should do so, then go to step 3 but you can skip step 6.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>If this was helpful to you consider dropping a star on <a href="https://github.com/xarxaxdev/example_apptainer">https://github.com/xarxaxdev/example_apptainer</a> or donating. I am planning to keep this website as a personal blog and to document my projects.</p>
+<p>Donation:</p>
+<div class=donatecontainer>
+<div class=donateinfo>
+<div class=donatetext>
+<img alt="" style="max-height:1em;max-width:1em;display:inline" src=/monero_logo.svg> Monero <br>
+<code style="font-size:xx-small;overflow-wrap:break-word;">49va5kaQ8qzQjfNpTjURwiFR9Zh1uQQsT5cbnnur2NUsfzCbU1QQ2tG3PhdeapEGFTLuGMcx46ss6grJTKKFfP8EC1ePk9M</code><br>
+</div>
+<a href=/monero_qr.png><img alt="Monero QR Code" class=qr src=/monero_qr.png></a>
+</div>
+<div class=donateinfo>
+<div class=donatetext>
+Paypal
+</div>
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="E5HDXF4XG2GFC" />
+<input type="image" src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_DE/i/scr/pixel.gif" width="1" height="1" />
+</form>
+<a href=/paypal_qr.png><img alt="PayPal QR Code" class=qr src=/paypal_qr.png></a>
+</div>
+</div>
+
+
+
+<div id="nextprev">
+<a href="/general-app-recommendations/"><div id="prevart">Previous:<br>General Public Laptop/PC App Recommendations</div></a>
+</div>
+<div style="clear:both" class=taglist>Related<br><a id="tag_technology" href="https://xarxax.xyz/tags/technology">Technology</a> &middot; <a id="tag_germany" href="https://xarxax.xyz/tags/germany">Germany</a> &middot; <a id="tag_tutorial" href="https://xarxax.xyz/tags/tutorial">Tutorial</a></div>
+</article>
+</main>
+
+<footer>
+	<a href="https://xarxax.xyz/">https://xarxax.xyz/</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+</footer>
+
+</body>
+</html>

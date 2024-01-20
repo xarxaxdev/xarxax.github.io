@@ -1,0 +1,149 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+	<title>Xarxax.xyz</title>
+	<link>https://xarxax.xyz/tags/blog/</link>
+	<description>Recent content in blog on Xarxax.xyz</description>
+	<generator>Hugo -- gohugo.io</generator>
+	<language>en-us</language>
+	<lastBuildDate>Mon, 18 Dec 2023 19:41:44 +0100</lastBuildDate>
+    
+        <atom:link href="https://xarxax.xyz/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+	
+	
+	<item>
+		<title>General Public Laptop/PC App Recommendations</title>
+		<link>https://xarxax.xyz/general-app-recommendations/</link>
+		<pubDate>Fri, 05 Jan 2024 04:42:05 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/general-app-recommendations/</guid>
+		<description>&lt;p&gt;These are some of the apps I have used over the years, and from those they are the ones that are more focused to work with a general public (whoever does not want to use a Terminal). There is a bias towards using open-source, specially for apps that are just extremely common to use (email, browser, etc). These tend to be ad-free and focused on usability.&lt;/p&gt;
+&lt;p&gt;Open-source simple apps that are available for Windows and Linux:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.thunderbird.net/en-US/&#34;&gt;Thunderbird&lt;/a&gt; is the mail client that everyone should be using. Besides being open-source(so not snooping in your data) and donation based, it is very average-person friendly. As an adult you probably have 3+ mails on different websites (company, studies, private, spam, etc). This is a hassle to work with if you are using a browser tab for each mail; Thunderbird solves that.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jonls.dk/redshift/&#34;&gt;Redshift&lt;/a&gt; is a red light filter (for burning your eyesight less and sleeping better if you look at screens at night).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.libreoffice.org/&#34;&gt;Libreoffice&lt;/a&gt; is like Microsoft Word (but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://chromium.woolyss.com/&#34;&gt;Chromium&lt;/a&gt; is basically Google Chrome (but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.gimp.org/&#34;&gt;GIMP&lt;/a&gt; is an image editor (like Photoshop, but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.videolan.org/vlc/&#34;&gt;VLC&lt;/a&gt; is a music and video player.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kodi.tv/&#34;&gt;Kodi&lt;/a&gt; is an media-player more useful for when you are watching a series.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gparted.org/&#34;&gt;Gparted&lt;/a&gt; is a very nice tool for managing your disks/storage/hard drive partitions.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gedit-technology.github.io/apps/gedit/&#34;&gt;Gedit&lt;/a&gt; is a simple text editor like Notepad.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://apps.kde.org/filelight/&#34;&gt;Filelight&lt;/a&gt; is a way to check how full your disk is and which folder is taking space.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.texstudio.org/&#34;&gt;Texstudio&lt;/a&gt; This is a very beginner friendly to use LaTex (format for scientific papers) editor. If you have never heard of LaTex ignore this app.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Non-open source:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://justgetflux.com/&#34;&gt;F.lux&lt;/a&gt; Is the red light filter you should use if Redshift is not working for you.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.wikiloc.wikilocandroid&amp;amp;hl=es&#34;&gt;Wikiloc&lt;/a&gt; is pretty nice for hiking local routes&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Apps and webs for Travelling Indonesia</title>
+		<link>https://xarxax.xyz/apps-for-travelling-indonesia/</link>
+		<pubDate>Fri, 05 Jan 2024 04:19:19 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/apps-for-travelling-indonesia/</guid>
+		<description>&lt;p&gt;South-East Asia has its own tech ecosystem. If you use apps that are more &amp;ldquo;tourist-friendly&amp;rdquo; it is likely you are going to overpay for a lot of stuff, here is my list to prevent that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro&amp;amp;hl=en_US&#34;&gt;MAPS.ME&lt;/a&gt; While google maps is great, I have had some issues with it working in some South-East Asian countries, which have been solved by this app. If you decide to travel to Indonesia it is very likely you will transit in Bangkok (Thailand) where there are multiple airports and you don&amp;rsquo;t want to have to download the app last minute. In more rural areas of Indonesia and Bangkok I found this app very helfpul.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.gojek.app&amp;amp;hl=en&amp;amp;gl=US&#34;&gt;Gojek&lt;/a&gt; &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.grabtaxi.passenger&amp;amp;hl=en_US&#34;&gt;Grab&lt;/a&gt; These are the most used apps for grabbing a taxi in Indonesia by a huge margin. Both work well, and personally the drivers were extremely kind and cheerful. In general, the scooter (Gojek by the locals) is the best option for transport for any local mobility, as traffic can get quite chaotic (especially in Bali) and buses or cars get stuck in traffic jams. As an European I can say that the traffic feels very wild for our standards, but having exclusively grabbed scooters driven by a local for a month I can say it is pretty safe.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.malindoair.com/&#34;&gt;Batik Air&lt;/a&gt; &lt;a href=&#34;https://www.garuda-indonesia.com/other-countries/en/index&#34;&gt;Fly Garuda&lt;/a&gt; &lt;a href=&#34;https://www.lionair.co.id/&#34;&gt;Lion Air&lt;/a&gt; &lt;a href=&#34;https://www.airasia.com/en/gb&#34;&gt;Air Asia&lt;/a&gt; These are all respectable apps for flights in Indonesia, and were you in need of an urgent flight for any reason you can count on them. The prices can widely vary, so if you want the cheapest I recommend you check them all.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.traveloka.com/en-en&#34;&gt;Traveloka&lt;/a&gt; &lt;a href=&#34;https://www.tiket.com/&#34;&gt;Tiket&lt;/a&gt; &lt;a href=&#34;https://www.rome2rio.com/map/Malang/Banyuwangi#r/Train/s/0&#34;&gt;Rome2Rio&lt;/a&gt; As general purpose apps for booking both activities and transport. When I was travelling Traveloka was notably cheaper. Of course if you want to ask the local people for advice and you can and should, all the people I interacted with was lovely. But English, specially if you are more on the countryside is completely out of the equation.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.ferizy.com/&#34;&gt;Ferry Service Bali-Java&lt;/a&gt; This is the cheap option for crossing between these two islands. You want to pick Ketapang (Java) and Gilimanuk (Bali) as ports. Also Pejalan Kaki (pedestrian).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://semayaone.com/fast-boat-online-ticket/&#34;&gt;Ferry Service Bali-Lombok&lt;/a&gt; This is the best option I found to cross between these two islands. You also have to grab the public boat from Gili islands to Lombok, but that is just 1Eur more.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Germany Why Study</title>
+		<link>https://xarxax.xyz/germany-why-study/</link>
+		<pubDate>Wed, 20 Dec 2023 17:09:49 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/germany-why-study/</guid>
+		<description>&lt;h1 id=&#34;why-study-in-germany-instead-of-your-country&#34;&gt;Why study in Germany instead of your country?&lt;/h1&gt;
+&lt;h3 id=&#34;economically&#34;&gt;Economically&lt;/h3&gt;
+&lt;p&gt;There are many publicly funded Master and Bachelor programs, where the only costs that you will pay are the University fees. For me, studying in a public Bachelor&amp;rsquo;s in Spain (which is cheaper than a Master) cost me roughly 1.2k euros a semester, assuming I never had to repeat a subject (otherwise I had to pay 200 more euros plus the normal price for that subject) and with only the tuition fees included. Conversely, where I study now I pay slightly above 300 euros a semester that include a transport ticket for the whole Brandenburg region.&lt;/p&gt;
+&lt;p&gt;You may also find better conditions for work or research in Germany as well. To give an example, it was relatively hard for me to find C++ developer jobs in Barcelona, where as in Germany they are quite requested. The same goes for robotics and some other niche fields.&lt;/p&gt;
+&lt;h3 id=&#34;wholistic-university-approach&#34;&gt;Wholistic university approach&lt;/h3&gt;
+&lt;p&gt;The student deal on public transport is only one example of how the conditions for living in Germany are quite welcoming in general.  Please take into account that &lt;strong&gt;the minimum wage is 1584 eur&lt;/strong&gt; when looking at those. These are other factors well integrated (in Potsdam University):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.studentenwerk-potsdam.de/en/housing/our-halls-of-residence#/&#34;&gt;Student housing (Studentenwohnheim)&lt;/a&gt; can cost you as little as 210 euros. Add 5 euros per month more for internet.&lt;/li&gt;
+&lt;li&gt;Eating at the &lt;a href=&#34;https://www.studentenwerk-potsdam.de/en/food-co/our-canteens-and-cafeterias&#34;&gt;uni cafeteria (Mensa)&lt;/a&gt; will usually cost you 3~5eur for a rather complete (and healthy) dish.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.uni-potsdam.de/en/zessko/languages/overview&#34;&gt;Language courses&lt;/a&gt; (although limited) are for free for students. There are also &lt;a href=&#34;https://www.uni-potsdam.de/en/zessko/languages/overview/forms-of-learning&#34;&gt;other options&lt;/a&gt; in the uni to further help if you want to improve your conversational skills.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://buchung.hochschulsport-potsdam.de/angebote/aktueller_zeitraum/index.html&#34;&gt;Sports classes&lt;/a&gt; for 4 months (2h a week) for 20 euros.&lt;/li&gt;
+&lt;li&gt;Extremely abundant part-time offers intended for students or minijobs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I write this as I am studying my master in Potsdam since 2022. I am physically studying there and my German as of now (12.2023) is still not very good.&lt;/p&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Germany Studying First Steps</title>
+		<link>https://xarxax.xyz/germany-studying-first-steps/</link>
+		<pubDate>Tue, 19 Dec 2023 08:53:04 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/germany-studying-first-steps/</guid>
+		<description>&lt;h1 id=&#34;studying-in-germany-first-steps&#34;&gt;Studying in Germany: First steps&lt;/h1&gt;
+&lt;p&gt;There are quire a few steps you have to take before you are properly enrolled and you don&amp;rsquo;t have to worry about bureaucracy. Some are legal requirements, some will allow you to save up money.&lt;/p&gt;
+&lt;p&gt;Things that will save you money and you should do AT LEAST a year in advance (even if you are missing many documents and you have not even been accepted on a degree). If you are missing any documents apply anyway and send the documents as you get them:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For applying to the biggest scholarship &lt;a href=&#34;https://www3.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/&#34;&gt;DAAD&lt;/a&gt;. Waiting for an acceptance letter made my application invalid and and lost any chance at this scholarship. This can be easily &lt;a href=&#34;https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/?status=3&amp;amp;origin=41&amp;amp;subjectGrps=F&amp;amp;daad=&amp;amp;intention=&amp;amp;q=&amp;amp;page=1&amp;amp;detail=50026200&#34;&gt;900 euros a month&lt;/a&gt; .&lt;/li&gt;
+&lt;li&gt;For student housing if you want to have a place by the time you begin your degree, you should apply a year in advance as well. As far as I understand, each region of Germany has its own Studentwerk/ Studentenwohnheim rules; it is still more than likely that if you have not applied a year prior you will not get a place by the time you wish to move in. I personally waited until getting an acceptance letter, which meant I had to stay many months in limbo regarding housing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(All transcribed in English or German) Things you will need for applying (or at least that I needed for applying to mine):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A degree you are aiming to apply for (you should fulfill the qualifications for said degree). Use &lt;a href=&#34;https://www.uni-assist.de/&#34;&gt;uni-assist&lt;/a&gt; for managing the application.&lt;/li&gt;
+&lt;li&gt;A motivation letter for the degree you are applying.&lt;/li&gt;
+&lt;li&gt;An official certificate of being qualified enough in the language of the degree you are applying for. Generally speaking, most degrees in German will need a B2 and most degrees in English will need a C1; but you should find it in the degree requirements.&lt;/li&gt;
+&lt;li&gt;(Only if you are doing a Master&amp;rsquo;s) Your Bachelor&amp;rsquo;s full credits transcript (including subjects), with some stamp or signature. You may also need a proof of completion for it.&lt;/li&gt;
+&lt;li&gt;Your university passing qualifications (high school diploma + entrance university grades) with a stamp or signature (even if you are applying for a Master and have a Bachelor&amp;rsquo;s). I personally managed to get away without transcribing this, but it is very likely you&amp;rsquo;ll need to. I will also say that this was only necessary for registering when starting in the university, not for applying to the program itself.&lt;/li&gt;
+&lt;li&gt;Your local country ID&lt;/li&gt;
+&lt;li&gt;Your Curriculum Vitae (depends on the degree).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thing you should be able to provide right before you actually begin your studies:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Proof of you being legally insured by a German company (can be obtained exactly when you begin studying, needs only to be valid for the classes period).&lt;/li&gt;
+&lt;li&gt;Passport valid to get in Germany or VISA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;good-etiquette&#34;&gt;Good etiquette&lt;/h3&gt;
+&lt;p&gt;While this is not a requirement by any means and I have no proof of how relevant it is when it comes to getting accepted; I was recommended to show some etiquette in the uni-assist when delivering the required files. Delivering the proper files scanned rather than on a phone picture, with proper naming and format (your Curriculum Vitae should be &amp;ldquo;curriculum_vitae.pdf&amp;rdquo;) makes the work of whoever is looking at the application easier and shows diligence.&lt;/p&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>About me</title>
+		<link>https://xarxax.xyz/about/</link>
+		<pubDate>Mon, 18 Dec 2023 19:41:44 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/about/</guid>
+		<description>&lt;p&gt;Heya! This is me:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xarxax.xyz/profile.jpg&#34; alt=&#34;me&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is the first post in my personal blog. The idea of this blog is to showcase some of the things I have been doing in my fields of study, plus some trips or personal projects I did.&lt;/p&gt;
+&lt;p&gt;Academic studies:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Bachelor&amp;rsquo;s in Computer Science (09.2013 - 05.2019) in &lt;a href=&#34;https://www.upc.edu/ca&#34;&gt;Universitat Politecnica de Catalunya&lt;/a&gt; (Barcelona)&lt;/li&gt;
+&lt;li&gt;Master in Cognitive Systems (10.2022 - ongoing) in &lt;a href=&#34;https://www.uni-potsdam.de/de/&#34;&gt;Potsdam Universitët&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Professional experience:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Front End Developer (07.2017 - 02.2018) at &lt;a href=&#34;https://www.marfeel.com/&#34;&gt;Marfeel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Backend Developer/Data Engineer (08.2019 - 05.2022) at &lt;a href=&#34;https://streamhatchet.com/&#34;&gt;Streamhatchet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Waiter (06.2022 - 08.2022) at &lt;a href=&#34;https://www.aramark.com/home&#34;&gt;Aramark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Research Assistant (06.2023 - ongoing) at &lt;a href=&#34;https://www.dfki.de/web&#34;&gt;DFKI&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Other certifications I have:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://ielts.org/&#34;&gt;IELTS&lt;/a&gt; with an 8.0&lt;/li&gt;
+&lt;li&gt;Spanish Driving License&lt;/li&gt;
+&lt;li&gt;Open Water Diver and Advanced Open Water Diver at &lt;a href=&#34;https://www.padi.com/&#34;&gt;PADI&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Food manipulator and Allergies and Intolerances certificate at Aramark&lt;/li&gt;
+&lt;li&gt;Work accident Prevention certificate at Aramark&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+	</item>
+	
+	</channel>
+</rss>

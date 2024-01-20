@@ -1,0 +1,245 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+	<title>Xarxax.xyz</title>
+	<link>https://xarxax.xyz/</link>
+	<description>Recent content in Home on Xarxax.xyz</description>
+	<generator>Hugo -- gohugo.io</generator>
+	<language>en-us</language>
+	<lastBuildDate>Wed, 17 Jan 2024 23:12:31 +0100</lastBuildDate>
+    
+        <atom:link href="https://xarxax.xyz/index.xml" rel="self" type="application/rss+xml" />
+	
+	
+	<item>
+		<title>Training AI Models at the Potsdam University Cluster</title>
+		<link>https://xarxax.xyz/training-ai-models-potsdam-university/</link>
+		<pubDate>Thu, 18 Jan 2024 01:06:51 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/training-ai-models-potsdam-university/</guid>
+		<description>&lt;h2 id=&#34;prequisites&#34;&gt;Prequisites&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.uni-potsdam.de/en/zim/angebote-loesungen/vpn&#34;&gt;VPN for Potsdam University&lt;/a&gt; set up and working.&lt;/li&gt;
+&lt;li&gt;Requested and granted access from the &lt;a href=&#34;https://www.uni-potsdam.de/en/zim/angebote-loesungen/hpc&#34;&gt;HPC Cluster&lt;/a&gt;. This means I assume you have managed to connect with ssh or something similar to the cluster.&lt;/li&gt;
+&lt;li&gt;(for the scripts to work comfy) a way to use ssh without a password (GPG or using ssh-keygen for example).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;containerization-docker-in-a-nutshell&#34;&gt;Containerization (docker) in a Nutshell&lt;/h2&gt;
+&lt;p&gt;If you google what Containerization is, I am certain you will find many tutorials that go over the documentation without any kind of abstract explanation, which is just not that helpful. This is a better &lt;a href=&#34;https://www.youtube.com/watch?v=Gjnup-PuquQ&#34;&gt;video&lt;/a&gt;.  Let&amp;rsquo;s see it in a simple drawing:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://xarxax.xyz/containerization.png&#34; alt=&#34;Containerization&#34;&gt;&lt;/p&gt;
+&lt;p&gt;We can think of recipes as &amp;ldquo;how can I have a virtual machine that runs things on its own&amp;rdquo;. We can think of images as a virtual machine &amp;ldquo;created&amp;rdquo;. But we don&amp;rsquo;t want to have to re-do that virtual machine every time to run every separate program right? So we create containers for specfic applications.&lt;/p&gt;
+&lt;p&gt;In the context of what I will be showing, the rationale for containers is more that we will do small modifications to our python code, and building an image every time would be unnecessarily and costly. We only need to rebuild the image when we are using different libraries (or different base images of course).&lt;/p&gt;
+&lt;h2 id=&#34;a-minimal-working-example&#34;&gt;A minimal working example&lt;/h2&gt;
+&lt;p&gt;The example can be found at &lt;a href=&#34;https://github.com/xarxaxdev/example_apptainer&#34;&gt;https://github.com/xarxaxdev/example_apptainer&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I go in this section over the relevant parts; you may want to first tinker with &amp;ldquo;How to work with the example&amp;rdquo; and then modify the parts of the code you want.&lt;/p&gt;
+&lt;h3 id=&#34;project-relevant-code&#34;&gt;Project-relevant code:&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;generate_model.py&lt;/code&gt; -&amp;gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;requirements.txt&lt;/code&gt; -&amp;gt; Python libraries I needed for the main code.&lt;/p&gt;
+&lt;h3 id=&#34;container-and-cluster-relevant-code&#34;&gt;Container and cluster-relevant code&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;slurm.job&lt;/code&gt; -&amp;gt; Defines the general parameters for running a task in slurm. Relevant lines I modified:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#SBATCH --partition=gpu&lt;/code&gt; -&amp;gt; We want to use the partitions (machines)  that have a GPU&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#SBATCH --gpus=1&lt;/code&gt; -&amp;gt; How many gpus to use. You dont need more than 1.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#SBATCH --chdir=.&lt;/code&gt; -&amp;gt; This is where you want to run this job, &lt;code&gt;.&lt;/code&gt; means the folder you are currently in. This is why in this example you will run things from &lt;code&gt;/work/username/projectname&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#SBATCH --time=4-11:59 &lt;/code&gt; -&amp;gt;  I set the time to run the scrip to the max possible.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;apptainer run --nv img.sif&lt;/code&gt; -&amp;gt; This is the command that actually runs the container we have created. &lt;code&gt;img.sif&lt;/code&gt; is the image we will be generating.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;recipe.def&lt;/code&gt; -&amp;gt; This is where we have the set of instructions that will be used to build the image that we will use for running the containers.Let&amp;rsquo;s go over the sections it has:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  Bootstrap: docker
+  From: pytorch/pytorch 
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We want to prepare the environment (Bootstrap) for docker-like images. pytorch/pytorch is a specific image for docker; we will use it as base, install some libraries and define the main script. You can find other images in &lt;a href=&#34;https://hub.docker.com/&#34;&gt;https://hub.docker.com/&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  %files
+  generate_model.py .
+  requirements.txt .
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This makes the 2 files available in &lt;code&gt;.&lt;/code&gt; (the main folder of the image).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-%environment&#34; data-lang=&#34;%environment&#34;&gt;  export PATH=&amp;#34;$PATH:&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We want to use the current folder, so we define the  &lt;code&gt;PATH&lt;/code&gt; of the image as evaluating(using &lt;code&gt;$&lt;/code&gt;) the current &lt;code&gt;PATH&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  %post
+  echo &amp;#34;Installing required packages...&amp;#34;
+  pip3 install -r requirements.txt 
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Once we are done cloning the base image, the &lt;code&gt;%post&lt;/code&gt; will be run to customize the image before it is aved.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  %runscript
+  echo &amp;#34;running main script&amp;#34; 
+  python3 generate_model.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The main script that will run when we run the image in a container.&lt;/p&gt;
+&lt;h3 id=&#34;alias-that-just-made-my-life-easier&#34;&gt;alias that just made my life easier&lt;/h3&gt;
+&lt;p&gt;You will find them in : &lt;code&gt;readme.md&lt;/code&gt;. It is just 4 variables and 3 aliases that make working locally, uploading the code and rerunning it simpler. You may want to add them in your &lt;code&gt;.bashrc&lt;/code&gt; . The alias are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alias ssh_uni=&amp;quot;ssh -X $CLUSTER_LOGIN&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;alias update_example_apptainer=&amp;quot;rsync -av -e ssh --exclude=&#39;*.pyc&#39; --exclude=&#39;.git&#39; --exclude=&#39;*/generated_models/*&#39; $HOME/$project $CLUSTER_LOGIN:$PATH_IN_CLUSTER &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;alias reverse_update_example_apptainer=&amp;quot;rsync -av -e ssh --exclude=&#39;*.pyc&#39; --exclude=&#39;.git*&#39; --exclude=&#39;*generate_model.py&#39; --exclude=&#39;*.sif&#39; --exclude=&#39;*.bin&#39; --exclude=&#39;*.pt&#39;  $CLUSTER_LOGIN:$PATH_IN_CLUSTER/$project $HOME  &amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;how-to-work-with-the-example&#34;&gt;How to work with the example&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Clone from github. Would recommend doing so in &lt;code&gt;/home/username&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Add the aliases and variables:
+&lt;ol&gt;
+&lt;li&gt;Change &amp;ldquo;yourusername&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Change &amp;ldquo;/example_apptainer&amp;rdquo; for whichever folder you stored it in. You may have to tinker the alias if it&amp;rsquo;s not in &lt;code&gt;/home/username&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;update_example_apptainer&lt;/code&gt; to upload the code from the folder project to the uni cluster&amp;rsquo;s working directory.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ssh_uni&lt;/code&gt; to access the cluster; then navigate to your working folder &lt;code&gt;/work/username/example_apptainer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Now build the image: &lt;code&gt;apptainer build img.sif recipe.def&lt;/code&gt;. This is slow.&lt;/li&gt;
+&lt;li&gt;Now &lt;code&gt;img.sif&lt;/code&gt; is in your folder; you can run the image as a job by running &lt;code&gt;apptainer run --nv img.sif&lt;/code&gt;. Wait for the job to be complete or fail.&lt;/li&gt;
+&lt;li&gt;Close ssh connection and &lt;code&gt;reverse_update_example_apptainer&lt;/code&gt; to get the results from your cluster.
+&lt;ol&gt;
+&lt;li&gt;The job run successfully, good job!&lt;/li&gt;
+&lt;li&gt;The job run failed; you should check the &lt;code&gt;slurm-*jobid*.out&lt;/code&gt; to see what is wrong.
+&lt;ol&gt;
+&lt;li&gt;Need to modify &lt;code&gt;requirements.txt&lt;/code&gt; and install new libraries? You should do so,then go to step 3 without skipping any steps.&lt;/li&gt;
+&lt;li&gt;You only needed to modify &lt;code&gt;generate_model.py&lt;/code&gt;? You should do so, then go to step 3 but you can skip step 6.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If this was helpful to you consider dropping a star on &lt;a href=&#34;https://github.com/xarxaxdev/example_apptainer&#34;&gt;https://github.com/xarxaxdev/example_apptainer&lt;/a&gt; or donating. I am planning to keep this website as a personal blog and to document my projects.&lt;/p&gt;
+&lt;p&gt;Donation:&lt;/p&gt;
+&lt;div class=donatecontainer&gt;
+&lt;div class=donateinfo&gt;
+&lt;div class=donatetext&gt;
+&lt;img alt=&#34;&#34; style=&#34;max-height:1em;max-width:1em;display:inline&#34; src=https://xarxax.xyz/monero_logo.svg&gt; Monero &lt;br&gt;
+&lt;code style=&#34;font-size:xx-small;overflow-wrap:break-word;&#34;&gt;49va5kaQ8qzQjfNpTjURwiFR9Zh1uQQsT5cbnnur2NUsfzCbU1QQ2tG3PhdeapEGFTLuGMcx46ss6grJTKKFfP8EC1ePk9M&lt;/code&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;a href=https://xarxax.xyz/monero_qr.png&gt;&lt;img alt=&#34;Monero QR Code&#34; class=qr src=https://xarxax.xyz/monero_qr.png&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=donateinfo&gt;
+&lt;div class=donatetext&gt;
+Paypal
+&lt;/div&gt;
+&lt;form action=&#34;https://www.paypal.com/donate&#34; method=&#34;post&#34; target=&#34;_top&#34;&gt;
+&lt;input type=&#34;hidden&#34; name=&#34;hosted_button_id&#34; value=&#34;E5HDXF4XG2GFC&#34; /&gt;
+&lt;input type=&#34;image&#34; src=&#34;https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif&#34; border=&#34;0&#34; name=&#34;submit&#34; title=&#34;PayPal - The safer, easier way to pay online!&#34; alt=&#34;Donate with PayPal button&#34; /&gt;
+&lt;img alt=&#34;&#34; border=&#34;0&#34; src=&#34;https://www.paypal.com/en_DE/i/scr/pixel.gif&#34; width=&#34;1&#34; height=&#34;1&#34; /&gt;
+&lt;/form&gt;
+&lt;a href=https://xarxax.xyz/paypal_qr.png&gt;&lt;img alt=&#34;PayPal QR Code&#34; class=qr src=https://xarxax.xyz/paypal_qr.png&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+</description>
+	</item>
+	
+	<item>
+		<title>General Public Laptop/PC App Recommendations</title>
+		<link>https://xarxax.xyz/general-app-recommendations/</link>
+		<pubDate>Fri, 05 Jan 2024 04:42:05 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/general-app-recommendations/</guid>
+		<description>&lt;p&gt;These are some of the apps I have used over the years, and from those they are the ones that are more focused to work with a general public (whoever does not want to use a Terminal). There is a bias towards using open-source, specially for apps that are just extremely common to use (email, browser, etc). These tend to be ad-free and focused on usability.&lt;/p&gt;
+&lt;p&gt;Open-source simple apps that are available for Windows and Linux:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.thunderbird.net/en-US/&#34;&gt;Thunderbird&lt;/a&gt; is the mail client that everyone should be using. Besides being open-source(so not snooping in your data) and donation based, it is very average-person friendly. As an adult you probably have 3+ mails on different websites (company, studies, private, spam, etc). This is a hassle to work with if you are using a browser tab for each mail; Thunderbird solves that.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://jonls.dk/redshift/&#34;&gt;Redshift&lt;/a&gt; is a red light filter (for burning your eyesight less and sleeping better if you look at screens at night).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.libreoffice.org/&#34;&gt;Libreoffice&lt;/a&gt; is like Microsoft Word (but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://chromium.woolyss.com/&#34;&gt;Chromium&lt;/a&gt; is basically Google Chrome (but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.gimp.org/&#34;&gt;GIMP&lt;/a&gt; is an image editor (like Photoshop, but open-source).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.videolan.org/vlc/&#34;&gt;VLC&lt;/a&gt; is a music and video player.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kodi.tv/&#34;&gt;Kodi&lt;/a&gt; is an media-player more useful for when you are watching a series.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gparted.org/&#34;&gt;Gparted&lt;/a&gt; is a very nice tool for managing your disks/storage/hard drive partitions.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gedit-technology.github.io/apps/gedit/&#34;&gt;Gedit&lt;/a&gt; is a simple text editor like Notepad.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://apps.kde.org/filelight/&#34;&gt;Filelight&lt;/a&gt; is a way to check how full your disk is and which folder is taking space.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.texstudio.org/&#34;&gt;Texstudio&lt;/a&gt; This is a very beginner friendly to use LaTex (format for scientific papers) editor. If you have never heard of LaTex ignore this app.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Non-open source:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://justgetflux.com/&#34;&gt;F.lux&lt;/a&gt; Is the red light filter you should use if Redshift is not working for you.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.wikiloc.wikilocandroid&amp;amp;hl=es&#34;&gt;Wikiloc&lt;/a&gt; is pretty nice for hiking local routes&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Apps and webs for Travelling Indonesia</title>
+		<link>https://xarxax.xyz/apps-for-travelling-indonesia/</link>
+		<pubDate>Fri, 05 Jan 2024 04:19:19 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/apps-for-travelling-indonesia/</guid>
+		<description>&lt;p&gt;South-East Asia has its own tech ecosystem. If you use apps that are more &amp;ldquo;tourist-friendly&amp;rdquo; it is likely you are going to overpay for a lot of stuff, here is my list to prevent that:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro&amp;amp;hl=en_US&#34;&gt;MAPS.ME&lt;/a&gt; While google maps is great, I have had some issues with it working in some South-East Asian countries, which have been solved by this app. If you decide to travel to Indonesia it is very likely you will transit in Bangkok (Thailand) where there are multiple airports and you don&amp;rsquo;t want to have to download the app last minute. In more rural areas of Indonesia and Bangkok I found this app very helfpul.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.gojek.app&amp;amp;hl=en&amp;amp;gl=US&#34;&gt;Gojek&lt;/a&gt; &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.grabtaxi.passenger&amp;amp;hl=en_US&#34;&gt;Grab&lt;/a&gt; These are the most used apps for grabbing a taxi in Indonesia by a huge margin. Both work well, and personally the drivers were extremely kind and cheerful. In general, the scooter (Gojek by the locals) is the best option for transport for any local mobility, as traffic can get quite chaotic (especially in Bali) and buses or cars get stuck in traffic jams. As an European I can say that the traffic feels very wild for our standards, but having exclusively grabbed scooters driven by a local for a month I can say it is pretty safe.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.malindoair.com/&#34;&gt;Batik Air&lt;/a&gt; &lt;a href=&#34;https://www.garuda-indonesia.com/other-countries/en/index&#34;&gt;Fly Garuda&lt;/a&gt; &lt;a href=&#34;https://www.lionair.co.id/&#34;&gt;Lion Air&lt;/a&gt; &lt;a href=&#34;https://www.airasia.com/en/gb&#34;&gt;Air Asia&lt;/a&gt; These are all respectable apps for flights in Indonesia, and were you in need of an urgent flight for any reason you can count on them. The prices can widely vary, so if you want the cheapest I recommend you check them all.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.traveloka.com/en-en&#34;&gt;Traveloka&lt;/a&gt; &lt;a href=&#34;https://www.tiket.com/&#34;&gt;Tiket&lt;/a&gt; &lt;a href=&#34;https://www.rome2rio.com/map/Malang/Banyuwangi#r/Train/s/0&#34;&gt;Rome2Rio&lt;/a&gt; As general purpose apps for booking both activities and transport. When I was travelling Traveloka was notably cheaper. Of course if you want to ask the local people for advice and you can and should, all the people I interacted with was lovely. But English, specially if you are more on the countryside is completely out of the equation.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.ferizy.com/&#34;&gt;Ferry Service Bali-Java&lt;/a&gt; This is the cheap option for crossing between these two islands. You want to pick Ketapang (Java) and Gilimanuk (Bali) as ports. Also Pejalan Kaki (pedestrian).&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://semayaone.com/fast-boat-online-ticket/&#34;&gt;Ferry Service Bali-Lombok&lt;/a&gt; This is the best option I found to cross between these two islands. You also have to grab the public boat from Gili islands to Lombok, but that is just 1Eur more.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Why study in Germany instead of your country?</title>
+		<link>https://xarxax.xyz/germany-why-study/</link>
+		<pubDate>Wed, 20 Dec 2023 17:09:49 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/germany-why-study/</guid>
+		<description>&lt;h2 id=&#34;economically&#34;&gt;Economically&lt;/h2&gt;
+&lt;p&gt;There are many publicly funded Master and Bachelor programs, where the only costs that you will pay are the University fees. For me, studying in a public Bachelor&amp;rsquo;s in Spain (which is cheaper than a Master) cost me roughly 1.2k euros a semester, assuming I never had to repeat a subject (otherwise I had to pay 200 more euros plus the normal price for that subject) and with only the tuition fees included. Conversely, where I study now I pay slightly above 300 euros a semester that include a transport ticket for the whole Brandenburg region.&lt;/p&gt;
+&lt;p&gt;You may also find better conditions for work or research in Germany as well. To give an example, it was relatively hard for me to find C++ developer jobs in Barcelona, where as in Germany they are quite requested. The same goes for robotics and some other niche fields.&lt;/p&gt;
+&lt;h2 id=&#34;wholistic-university-approach&#34;&gt;Wholistic university approach&lt;/h2&gt;
+&lt;p&gt;The student deal on public transport is only one example of how the conditions for living in Germany are quite welcoming in general.  Please take into account that &lt;strong&gt;the minimum wage is 1584 eur&lt;/strong&gt; when looking at those. These are other factors well integrated (in Potsdam University):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.studentenwerk-potsdam.de/en/housing/our-halls-of-residence#/&#34;&gt;Student housing (Studentenwohnheim)&lt;/a&gt; can cost you as little as 210 euros. Add 5 euros per month more for internet.&lt;/li&gt;
+&lt;li&gt;Eating at the &lt;a href=&#34;https://www.studentenwerk-potsdam.de/en/food-co/our-canteens-and-cafeterias&#34;&gt;uni cafeteria (Mensa)&lt;/a&gt; will usually cost you 3~5eur for a rather complete (and healthy) dish.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.uni-potsdam.de/en/zessko/languages/overview&#34;&gt;Language courses&lt;/a&gt; (although limited) are for free for students. There are also &lt;a href=&#34;https://www.uni-potsdam.de/en/zessko/languages/overview/forms-of-learning&#34;&gt;other options&lt;/a&gt; in the uni to further help if you want to improve your conversational skills.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://buchung.hochschulsport-potsdam.de/angebote/aktueller_zeitraum/index.html&#34;&gt;Sports classes&lt;/a&gt; for 4 months (2h a week) for 20 euros.&lt;/li&gt;
+&lt;li&gt;Extremely abundant part-time offers intended for students or minijobs&lt;/li&gt;
+&lt;li&gt;Student bars that are voluntary-managed and have affordable prices&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I write this as I am studying my master in Potsdam since 2022. I am physically studying there and my German as of now (12.2023) is still not very good. You can read on the requirements for studying in Germany &lt;a href=&#34;https://xarxax.xyz/germany-studying-first-steps&#34;&gt;in my first steps guide&lt;/a&gt;&lt;/p&gt;
+</description>
+	</item>
+	
+	<item>
+		<title>Germany Studying First Steps</title>
+		<link>https://xarxax.xyz/germany-studying-first-steps/</link>
+		<pubDate>Tue, 19 Dec 2023 08:53:04 +0100</pubDate>
+		
+		<guid>https://xarxax.xyz/germany-studying-first-steps/</guid>
+		<description>&lt;h1 id=&#34;studying-in-germany-first-steps&#34;&gt;Studying in Germany: First steps&lt;/h1&gt;
+&lt;p&gt;There are quire a few steps you have to take before you are properly enrolled and you don&amp;rsquo;t have to worry about bureaucracy. Some are legal requirements, some will allow you to save up money.&lt;/p&gt;
+&lt;p&gt;Things that will save you money and you should do AT LEAST a year in advance (even if you are missing many documents and you have not even been accepted on a degree). If you are missing any documents apply anyway and send the documents as you get them:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For applying to the biggest scholarship &lt;a href=&#34;https://www3.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/&#34;&gt;DAAD&lt;/a&gt;. Waiting for an acceptance letter made my application invalid and and lost any chance at this scholarship. This can be easily &lt;a href=&#34;https://www2.daad.de/deutschland/stipendium/datenbank/en/21148-scholarship-database/?status=3&amp;amp;origin=41&amp;amp;subjectGrps=F&amp;amp;daad=&amp;amp;intention=&amp;amp;q=&amp;amp;page=1&amp;amp;detail=50026200&#34;&gt;900 euros a month&lt;/a&gt; .&lt;/li&gt;
+&lt;li&gt;For student housing if you want to have a place by the time you begin your degree, you should apply a year in advance as well. As far as I understand, each region of Germany has its own Studentwerk/ Studentenwohnheim rules; it is still more than likely that if you have not applied a year prior you will not get a place by the time you wish to move in. I personally waited until getting an acceptance letter, which meant I had to stay many months in limbo regarding housing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;(All transcribed in English or German) Things you will need for applying (or at least that I needed for applying to mine):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A degree you are aiming to apply for (you should fulfill the qualifications for said degree). Use &lt;a href=&#34;https://www.uni-assist.de/&#34;&gt;uni-assist&lt;/a&gt; for managing the application.&lt;/li&gt;
+&lt;li&gt;A motivation letter for the degree you are applying.&lt;/li&gt;
+&lt;li&gt;An official certificate of being qualified enough in the language of the degree you are applying for. Generally speaking, most degrees in German will need a B2 and most degrees in English will need a C1; but you should find it in the degree requirements.&lt;/li&gt;
+&lt;li&gt;(Only if you are doing a Master&amp;rsquo;s) Your Bachelor&amp;rsquo;s full credits transcript (including subjects), with some stamp or signature. You may also need a proof of completion for it.&lt;/li&gt;
+&lt;li&gt;Your university passing qualifications (high school diploma + entrance university grades) with a stamp or signature (even if you are applying for a Master and have a Bachelor&amp;rsquo;s). I personally managed to get away without transcribing this, but it is very likely you&amp;rsquo;ll need to. I will also say that this was only necessary for registering when starting in the university, not for applying to the program itself.&lt;/li&gt;
+&lt;li&gt;Your local country ID&lt;/li&gt;
+&lt;li&gt;Your Curriculum Vitae (depends on the degree).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Thing you should be able to provide right before you actually begin your studies:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Proof of you being legally insured by a German company (can be obtained exactly when you begin studying, needs only to be valid for the classes period).&lt;/li&gt;
+&lt;li&gt;Passport valid to get in Germany or VISA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;good-etiquette&#34;&gt;Good etiquette&lt;/h3&gt;
+&lt;p&gt;While this is not a requirement by any means and I have no proof of how relevant it is when it comes to getting accepted; I was recommended to show some etiquette in the uni-assist when delivering the required files. Delivering the proper files scanned rather than on a phone picture, with proper naming and format (your Curriculum Vitae should be &amp;ldquo;curriculum_vitae.pdf&amp;rdquo;) makes the work of whoever is looking at the application easier and shows diligence.&lt;/p&gt;
+</description>
+	</item>
+	
+	</channel>
+</rss>
