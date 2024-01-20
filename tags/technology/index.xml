@@ -1,21 +1,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
 	<title>Xarxax.xyz</title>
-	<link>xarxaxdev.github.io/tags/technology/</link>
+	<link>/tags/technology/</link>
 	<description>Recent content in technology on Xarxax.xyz</description>
 	<generator>Hugo -- gohugo.io</generator>
 	<language>en-us</language>
 	<lastBuildDate>Thu, 18 Jan 2024 01:06:51 +0100</lastBuildDate>
     
-        <atom:link href="xarxaxdev.github.io/tags/technology/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/technology/index.xml" rel="self" type="application/rss+xml" />
 	
 	
 	<item>
 		<title>Training AI Models at the Potsdam University Cluster</title>
-		<link>xarxaxdev.github.io/training-ai-models-potsdam-university/</link>
+		<link>/training-ai-models-potsdam-university/</link>
 		<pubDate>Thu, 18 Jan 2024 01:06:51 +0100</pubDate>
 		
-		<guid>xarxaxdev.github.io/training-ai-models-potsdam-university/</guid>
+		<guid>/training-ai-models-potsdam-university/</guid>
 		<description>&lt;h2 id=&#34;prequisites&#34;&gt;Prequisites&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://www.uni-potsdam.de/en/zim/angebote-loesungen/vpn&#34;&gt;VPN for Potsdam University&lt;/a&gt; set up and working.&lt;/li&gt;
@@ -24,7 +24,7 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;containerization-docker-in-a-nutshell&#34;&gt;Containerization (docker) in a Nutshell&lt;/h2&gt;
 &lt;p&gt;If you google what Containerization is, I am certain you will find many tutorials that go over the documentation without any kind of abstract explanation, which is just not that helpful. This is a better &lt;a href=&#34;https://www.youtube.com/watch?v=Gjnup-PuquQ&#34;&gt;video&lt;/a&gt;.  Let&amp;rsquo;s see it in a simple drawing:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;xarxaxdev.github.io/containerization.png&#34; alt=&#34;Containerization&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/containerization.png&#34; alt=&#34;Containerization&#34;&gt;&lt;/p&gt;
 &lt;p&gt;We can think of recipes as &amp;ldquo;how can I have a virtual machine that runs things on its own&amp;rdquo;. We can think of images as a virtual machine &amp;ldquo;created&amp;rdquo;. But we don&amp;rsquo;t want to have to re-do that virtual machine every time to run every separate program right? So we create containers for specfic applications.&lt;/p&gt;
 &lt;p&gt;In the context of what I will be showing, the rationale for containers is more that we will do small modifications to our python code, and building an image every time would be unnecessarily and costly. We only need to rebuild the image when we are using different libraries (or different base images of course).&lt;/p&gt;
 &lt;h2 id=&#34;a-minimal-working-example&#34;&gt;A minimal working example&lt;/h2&gt;
@@ -117,10 +117,10 @@
 &lt;div class=donatecontainer&gt;
 &lt;div class=donateinfo&gt;
 &lt;div class=donatetext&gt;
-&lt;img alt=&#34;&#34; style=&#34;max-height:1em;max-width:1em;display:inline&#34; src=xarxaxdev.github.io/monero_logo.svg&gt; Monero &lt;br&gt;
+&lt;img alt=&#34;&#34; style=&#34;max-height:1em;max-width:1em;display:inline&#34; src=/monero_logo.svg&gt; Monero &lt;br&gt;
 &lt;code style=&#34;font-size:xx-small;overflow-wrap:break-word;&#34;&gt;49va5kaQ8qzQjfNpTjURwiFR9Zh1uQQsT5cbnnur2NUsfzCbU1QQ2tG3PhdeapEGFTLuGMcx46ss6grJTKKFfP8EC1ePk9M&lt;/code&gt;&lt;br&gt;
 &lt;/div&gt;
-&lt;a href=xarxaxdev.github.io/monero_qr.png&gt;&lt;img alt=&#34;Monero QR Code&#34; class=qr src=xarxaxdev.github.io/monero_qr.png&gt;&lt;/a&gt;
+&lt;a href=/monero_qr.png&gt;&lt;img alt=&#34;Monero QR Code&#34; class=qr src=/monero_qr.png&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;div class=donateinfo&gt;
 &lt;div class=donatetext&gt;
@@ -131,7 +131,7 @@ Paypal
 &lt;input type=&#34;image&#34; src=&#34;https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif&#34; border=&#34;0&#34; name=&#34;submit&#34; title=&#34;PayPal - The safer, easier way to pay online!&#34; alt=&#34;Donate with PayPal button&#34; /&gt;
 &lt;img alt=&#34;&#34; border=&#34;0&#34; src=&#34;https://www.paypal.com/en_DE/i/scr/pixel.gif&#34; width=&#34;1&#34; height=&#34;1&#34; /&gt;
 &lt;/form&gt;
-&lt;a href=xarxaxdev.github.io/paypal_qr.png&gt;&lt;img alt=&#34;PayPal QR Code&#34; class=qr src=xarxaxdev.github.io/paypal_qr.png&gt;&lt;/a&gt;
+&lt;a href=/paypal_qr.png&gt;&lt;img alt=&#34;PayPal QR Code&#34; class=qr src=/paypal_qr.png&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
@@ -140,10 +140,10 @@ Paypal
 	
 	<item>
 		<title>General Public Laptop/PC App Recommendations</title>
-		<link>xarxaxdev.github.io/general-app-recommendations/</link>
+		<link>/general-app-recommendations/</link>
 		<pubDate>Fri, 05 Jan 2024 04:42:05 +0100</pubDate>
 		
-		<guid>xarxaxdev.github.io/general-app-recommendations/</guid>
+		<guid>/general-app-recommendations/</guid>
 		<description>&lt;p&gt;These are some of the apps I have used over the years, and from those they are the ones that are more focused to work with a general public (whoever does not want to use a Terminal). There is a bias towards using open-source, specially for apps that are just extremely common to use (email, browser, etc). These tend to be ad-free and focused on usability.&lt;/p&gt;
 &lt;p&gt;Open-source simple apps that are available for Windows and Linux:&lt;/p&gt;
 &lt;ul&gt;
@@ -169,10 +169,10 @@ Paypal
 	
 	<item>
 		<title>Apps and webs for Travelling Indonesia</title>
-		<link>xarxaxdev.github.io/apps-for-travelling-indonesia/</link>
+		<link>/apps-for-travelling-indonesia/</link>
 		<pubDate>Fri, 05 Jan 2024 04:19:19 +0100</pubDate>
 		
-		<guid>xarxaxdev.github.io/apps-for-travelling-indonesia/</guid>
+		<guid>/apps-for-travelling-indonesia/</guid>
 		<description>&lt;p&gt;South-East Asia has its own tech ecosystem. If you use apps that are more &amp;ldquo;tourist-friendly&amp;rdquo; it is likely you are going to overpay for a lot of stuff, here is my list to prevent that:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro&amp;amp;hl=en_US&#34;&gt;MAPS.ME&lt;/a&gt; While google maps is great, I have had some issues with it working in some South-East Asian countries, which have been solved by this app. If you decide to travel to Indonesia it is very likely you will transit in Bangkok (Thailand) where there are multiple airports and you don&amp;rsquo;t want to have to download the app last minute. In more rural areas of Indonesia and Bangkok I found this app very helfpul.&lt;/li&gt;
@@ -187,10 +187,10 @@ Paypal
 	
 	<item>
 		<title>Why study in Germany instead of your country?</title>
-		<link>xarxaxdev.github.io/germany-why-study/</link>
+		<link>/germany-why-study/</link>
 		<pubDate>Wed, 20 Dec 2023 17:09:49 +0100</pubDate>
 		
-		<guid>xarxaxdev.github.io/germany-why-study/</guid>
+		<guid>/germany-why-study/</guid>
 		<description>&lt;h2 id=&#34;economically&#34;&gt;Economically&lt;/h2&gt;
 &lt;p&gt;There are many publicly funded Master and Bachelor programs, where the only costs that you will pay are the University fees. For me, studying in a public Bachelor&amp;rsquo;s in Spain (which is cheaper than a Master) cost me roughly 1.2k euros a semester, assuming I never had to repeat a subject (otherwise I had to pay 200 more euros plus the normal price for that subject) and with only the tuition fees included. Conversely, where I study now I pay slightly above 300 euros a semester that include a transport ticket for the whole Brandenburg region.&lt;/p&gt;
 &lt;p&gt;You may also find better conditions for work or research in Germany as well. To give an example, it was relatively hard for me to find C++ developer jobs in Barcelona, where as in Germany they are quite requested. The same goes for robotics and some other niche fields.&lt;/p&gt;
@@ -204,16 +204,16 @@ Paypal
 &lt;li&gt;Extremely abundant part-time offers intended for students or minijobs&lt;/li&gt;
 &lt;li&gt;Student bars that are voluntary-managed and have affordable prices&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;I write this as I am studying my master in Potsdam since 2022. I am physically studying there and my German as of now (12.2023) is still not very good. You can read on the requirements for studying in Germany &lt;a href=&#34;xarxaxdev.github.io/germany-studying-first-steps&#34;&gt;in my first steps guide&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I write this as I am studying my master in Potsdam since 2022. I am physically studying there and my German as of now (12.2023) is still not very good. You can read on the requirements for studying in Germany &lt;a href=&#34;/germany-studying-first-steps&#34;&gt;in my first steps guide&lt;/a&gt;&lt;/p&gt;
 </description>
 	</item>
 	
 	<item>
 		<title>Germany Studying First Steps</title>
-		<link>xarxaxdev.github.io/germany-studying-first-steps/</link>
+		<link>/germany-studying-first-steps/</link>
 		<pubDate>Tue, 19 Dec 2023 08:53:04 +0100</pubDate>
 		
-		<guid>xarxaxdev.github.io/germany-studying-first-steps/</guid>
+		<guid>/germany-studying-first-steps/</guid>
 		<description>&lt;h1 id=&#34;studying-in-germany-first-steps&#34;&gt;Studying in Germany: First steps&lt;/h1&gt;
 &lt;p&gt;There are quire a few steps you have to take before you are properly enrolled and you don&amp;rsquo;t have to worry about bureaucracy. Some are legal requirements, some will allow you to save up money.&lt;/p&gt;
 &lt;p&gt;Things that will save you money and you should do AT LEAST a year in advance (even if you are missing many documents and you have not even been accepted on a degree). If you are missing any documents apply anyway and send the documents as you get them:&lt;/p&gt;
