@@ -71,7 +71,7 @@
   pip3 install -r requirements.txt 
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Once we are done cloning the base image, the &lt;code&gt;%post&lt;/code&gt; will be run to customize the image before it is aved.&lt;/p&gt;
+&lt;p&gt;Once we are done cloning the base image, the &lt;code&gt;%post&lt;/code&gt; will be run to customize the image before it is saved.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;  %runscript
