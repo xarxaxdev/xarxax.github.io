@@ -98,7 +98,7 @@
 &lt;li&gt;&lt;code&gt;update_example_apptainer&lt;/code&gt; to upload the code from the folder project to the uni cluster&amp;rsquo;s working directory.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;ssh_uni&lt;/code&gt; to access the cluster; then navigate to your working folder &lt;code&gt;/work/username/example_apptainer&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Now build the image: &lt;code&gt;apptainer build img.sif recipe.def&lt;/code&gt;. This is slow.&lt;/li&gt;
-&lt;li&gt;Now &lt;code&gt;img.sif&lt;/code&gt; is in your folder; you can run the image as a job by running &lt;code&gt;apptainer run --nv img.sif&lt;/code&gt;. Wait for the job to be complete or fail.&lt;/li&gt;
+&lt;li&gt;Now &lt;code&gt;img.sif&lt;/code&gt; is in your folder; you could run the image with &lt;code&gt;apptainer run --nv img.sif&lt;/code&gt;. Instead use the cluster &lt;code&gt;slurm&lt;/code&gt; system and run &lt;code&gt;sbatch slurm.job&lt;/code&gt;. Wait for the job to be complete or fail.&lt;/li&gt;
 &lt;li&gt;Close ssh connection and &lt;code&gt;reverse_update_example_apptainer&lt;/code&gt; to get the results from your cluster.
 &lt;ol&gt;
 &lt;li&gt;The job run successfully, good job!&lt;/li&gt;
@@ -132,6 +132,9 @@ Paypal
 &lt;/form&gt;
 &lt;a href=https://xarxaxdev.github.io/paypal_qr.png&gt;&lt;img alt=&#34;PayPal QR Code&#34; class=qr src=https://xarxaxdev.github.io/paypal_qr.png&gt;&lt;/a&gt;
 &lt;/div&gt;
+
+&lt;/div&gt;
+
 &lt;/div&gt;
 
 </description>

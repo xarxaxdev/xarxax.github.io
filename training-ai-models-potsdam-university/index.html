@@ -100,7 +100,7 @@
 <li><code>update_example_apptainer</code> to upload the code from the folder project to the uni cluster&rsquo;s working directory.</li>
 <li><code>ssh_uni</code> to access the cluster; then navigate to your working folder <code>/work/username/example_apptainer</code></li>
 <li>Now build the image: <code>apptainer build img.sif recipe.def</code>. This is slow.</li>
-<li>Now <code>img.sif</code> is in your folder; you can run the image as a job by running <code>apptainer run --nv img.sif</code>. Wait for the job to be complete or fail.</li>
+<li>Now <code>img.sif</code> is in your folder; you could run the image with <code>apptainer run --nv img.sif</code>. Instead use the cluster <code>slurm</code> system and run <code>sbatch slurm.job</code>. Wait for the job to be complete or fail.</li>
 <li>Close ssh connection and <code>reverse_update_example_apptainer</code> to get the results from your cluster.
 <ol>
 <li>The job run successfully, good job!</li>
@@ -134,6 +134,9 @@ Paypal
 </form>
 <a href=/paypal_qr.png><img alt="PayPal QR Code" class=qr src=/paypal_qr.png></a>
 </div>
+
+</div>
+
 </div>
 
 
