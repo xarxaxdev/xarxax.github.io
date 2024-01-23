@@ -30,7 +30,7 @@
 <p>In the context of what I will be showing, the rationale for containers is more that we will do small modifications to our python code, and building an image every time would be unnecessarily and costly. We only need to rebuild the image when we are using different libraries (or different base images of course).</p>
 <h2 id="a-minimal-working-example">A minimal working example</h2>
 <p>The example can be found at <a href="https://github.com/xarxaxdev/example_apptainer">https://github.com/xarxaxdev/example_apptainer</a>.</p>
-<p>I go in this section over the relevant parts; you may want to first tinker with &ldquo;How to work with the example&rdquo; and then modify the parts of the code you want.</p>
+<p>I go in this section over the relevant parts; you may want to first look at the section &ldquo;How to work with the example&rdquo; and then modify the parts of the code you want.</p>
 <h3 id="project-relevant-code">Project-relevant code:</h3>
 <p><code>generate_model.py</code> -&gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.</p>
 <p><code>requirements.txt</code> -&gt; Python libraries I needed for the main code.</p>
@@ -106,15 +106,15 @@
 <li>The job run successfully, good job!</li>
 <li>The job run failed; you should check the <code>slurm-*jobid*.out</code> to see what is wrong.
 <ol>
-<li>Need to modify <code>requirements.txt</code> and install new libraries? You should do so,then go to step 3 without skipping any steps.</li>
-<li>You only needed to modify <code>generate_model.py</code>? You should do so, then go to step 3 but you can skip step 6.</li>
+<li>Need to modify <code>requirements.txt</code> and install new libraries? You should do so, then go to step 3 without skipping any steps.</li>
+<li>You only needed to modify <code>generate_model.py</code>? You should do so, then go to step 3 but you can skip step 5.</li>
 </ol>
 </li>
 </ol>
 </li>
 </ol>
 <p>If this was helpful to you consider dropping a star on <a href="https://github.com/xarxaxdev/example_apptainer">https://github.com/xarxaxdev/example_apptainer</a> or donating. I am planning to keep this website as a personal blog and to document my projects.</p>
-<p>Donation:</p>
+<h1 id="donation">Donation:</h1>
 <div class=donatecontainer>
 <div class=donateinfo>
 <div class=donatetext>

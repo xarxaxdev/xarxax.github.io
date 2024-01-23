@@ -29,7 +29,7 @@
 &lt;p&gt;In the context of what I will be showing, the rationale for containers is more that we will do small modifications to our python code, and building an image every time would be unnecessarily and costly. We only need to rebuild the image when we are using different libraries (or different base images of course).&lt;/p&gt;
 &lt;h2 id=&#34;a-minimal-working-example&#34;&gt;A minimal working example&lt;/h2&gt;
 &lt;p&gt;The example can be found at &lt;a href=&#34;https://github.com/xarxaxdev/example_apptainer&#34;&gt;https://github.com/xarxaxdev/example_apptainer&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;I go in this section over the relevant parts; you may want to first tinker with &amp;ldquo;How to work with the example&amp;rdquo; and then modify the parts of the code you want.&lt;/p&gt;
+&lt;p&gt;I go in this section over the relevant parts; you may want to first look at the section &amp;ldquo;How to work with the example&amp;rdquo; and then modify the parts of the code you want.&lt;/p&gt;
 &lt;h3 id=&#34;project-relevant-code&#34;&gt;Project-relevant code:&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;generate_model.py&lt;/code&gt; -&amp;gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;requirements.txt&lt;/code&gt; -&amp;gt; Python libraries I needed for the main code.&lt;/p&gt;
@@ -105,15 +105,15 @@
 &lt;li&gt;The job run successfully, good job!&lt;/li&gt;
 &lt;li&gt;The job run failed; you should check the &lt;code&gt;slurm-*jobid*.out&lt;/code&gt; to see what is wrong.
 &lt;ol&gt;
-&lt;li&gt;Need to modify &lt;code&gt;requirements.txt&lt;/code&gt; and install new libraries? You should do so,then go to step 3 without skipping any steps.&lt;/li&gt;
-&lt;li&gt;You only needed to modify &lt;code&gt;generate_model.py&lt;/code&gt;? You should do so, then go to step 3 but you can skip step 6.&lt;/li&gt;
+&lt;li&gt;Need to modify &lt;code&gt;requirements.txt&lt;/code&gt; and install new libraries? You should do so, then go to step 3 without skipping any steps.&lt;/li&gt;
+&lt;li&gt;You only needed to modify &lt;code&gt;generate_model.py&lt;/code&gt;? You should do so, then go to step 3 but you can skip step 5.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;If this was helpful to you consider dropping a star on &lt;a href=&#34;https://github.com/xarxaxdev/example_apptainer&#34;&gt;https://github.com/xarxaxdev/example_apptainer&lt;/a&gt; or donating. I am planning to keep this website as a personal blog and to document my projects.&lt;/p&gt;
-&lt;p&gt;Donation:&lt;/p&gt;
+&lt;h1 id=&#34;donation&#34;&gt;Donation:&lt;/h1&gt;
 &lt;div class=donatecontainer&gt;
 &lt;div class=donateinfo&gt;
 &lt;div class=donatetext&gt;
