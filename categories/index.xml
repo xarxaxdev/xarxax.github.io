@@ -89,7 +89,7 @@
 &lt;h2 id=&#34;how-to-work-with-the-example&#34;&gt;How to work with the example&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Clone from github. Would recommend doing so in &lt;code&gt;/home/username&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Add the aliases and variables:
+&lt;li&gt;Customize code, aliases and variables:
 &lt;ol&gt;
 &lt;li&gt;Change &amp;ldquo;yourusername&amp;rdquo;&lt;/li&gt;
 &lt;li&gt;Change &amp;ldquo;/example_apptainer&amp;rdquo; for whichever folder you stored it in. You may have to tinker the alias if it&amp;rsquo;s not in &lt;code&gt;/home/username&lt;/code&gt;&lt;/li&gt;
