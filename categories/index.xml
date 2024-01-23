@@ -93,6 +93,7 @@
 &lt;ol&gt;
 &lt;li&gt;Change &amp;ldquo;yourusername&amp;rdquo;&lt;/li&gt;
 &lt;li&gt;Change &amp;ldquo;/example_apptainer&amp;rdquo; for whichever folder you stored it in. You may have to tinker the alias if it&amp;rsquo;s not in &lt;code&gt;/home/username&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;You should also change &lt;code&gt;generate_model.py&lt;/code&gt; for your own code and &lt;code&gt;requirements.txt&lt;/code&gt; for the libraries you need.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;code&gt;update_example_apptainer&lt;/code&gt; to upload the code from the folder project to the uni cluster&amp;rsquo;s working directory.&lt;/li&gt;
