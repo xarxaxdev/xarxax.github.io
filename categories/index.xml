@@ -31,13 +31,13 @@
 &lt;p&gt;I go in this section over the relevant parts; you may want to first look at the section &amp;ldquo;How to work with the example&amp;rdquo; and then modify the parts of the code you want.&lt;/p&gt;
 &lt;h3 id=&#34;project-relevant-code&#34;&gt;Project-relevant code:&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;generate_model.py&lt;/code&gt; -&amp;gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;requirements.txt&lt;/code&gt; -&amp;gt; Python libraries I needed for the main code.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;requirements.txt&lt;/code&gt; -&amp;gt; Python libraries I needed for the main code of &lt;code&gt;generate_model.py&lt;/code&gt;&lt;/p&gt;
 &lt;h3 id=&#34;container-and-cluster-relevant-code&#34;&gt;Container and cluster-relevant code&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;slurm.job&lt;/code&gt; -&amp;gt; Defines the general parameters for running a task in slurm. Relevant lines I modified:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;#SBATCH --partition=gpu&lt;/code&gt; -&amp;gt; We want to use the partitions (machines)  that have a GPU&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;#SBATCH --gpus=1&lt;/code&gt; -&amp;gt; How many gpus to use. You dont need more than 1.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;#SBATCH --chdir=.&lt;/code&gt; -&amp;gt; This is where you want to run this job, &lt;code&gt;.&lt;/code&gt; means the folder you are currently in. This is why in this example you will run things from &lt;code&gt;/work/username/projectname&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#SBATCH --chdir=.&lt;/code&gt; -&amp;gt; This is where you want to run this job, &lt;code&gt;&amp;quot;.&amp;quot;&lt;/code&gt; means the folder you are currently in. This is why in this example you will run things from &lt;code&gt;/work/username/projectname&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;#SBATCH --time=4-11:59 &lt;/code&gt; -&amp;gt;  I set the time to run the scrip to the max possible.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;apptainer run --nv img.sif&lt;/code&gt; -&amp;gt; This is the command that actually runs the container we have created. &lt;code&gt;img.sif&lt;/code&gt; is the image we will be generating.&lt;/li&gt;
 &lt;/ul&gt;
@@ -56,7 +56,7 @@
   requirements.txt .
 &lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;This makes the 2 files available in &lt;code&gt;.&lt;/code&gt; (the main folder of the image).&lt;/p&gt;
+&lt;p&gt;This makes the 2 files available in &lt;code&gt;&amp;quot;.&amp;quot;&lt;/code&gt; (the main folder of the image).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-%environment&#34; data-lang=&#34;%environment&#34;&gt;  export PATH=&amp;#34;$PATH:&amp;#34;

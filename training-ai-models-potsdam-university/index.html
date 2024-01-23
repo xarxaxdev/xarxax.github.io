@@ -33,13 +33,13 @@
 <p>I go in this section over the relevant parts; you may want to first look at the section &ldquo;How to work with the example&rdquo; and then modify the parts of the code you want.</p>
 <h3 id="project-relevant-code">Project-relevant code:</h3>
 <p><code>generate_model.py</code> -&gt; Python main code: whatever you are trying to run with this tutorial. I kind of followed an existing tutorial in huggingface; feel fry to modify for whatever NLP task you want to do.</p>
-<p><code>requirements.txt</code> -&gt; Python libraries I needed for the main code.</p>
+<p><code>requirements.txt</code> -&gt; Python libraries I needed for the main code of <code>generate_model.py</code></p>
 <h3 id="container-and-cluster-relevant-code">Container and cluster-relevant code</h3>
 <p><code>slurm.job</code> -&gt; Defines the general parameters for running a task in slurm. Relevant lines I modified:</p>
 <ul>
 <li><code>#SBATCH --partition=gpu</code> -&gt; We want to use the partitions (machines)  that have a GPU</li>
 <li><code>#SBATCH --gpus=1</code> -&gt; How many gpus to use. You dont need more than 1.</li>
-<li><code>#SBATCH --chdir=.</code> -&gt; This is where you want to run this job, <code>.</code> means the folder you are currently in. This is why in this example you will run things from <code>/work/username/projectname</code></li>
+<li><code>#SBATCH --chdir=.</code> -&gt; This is where you want to run this job, <code>&quot;.&quot;</code> means the folder you are currently in. This is why in this example you will run things from <code>/work/username/projectname</code></li>
 <li><code>#SBATCH --time=4-11:59 </code> -&gt;  I set the time to run the scrip to the max possible.</li>
 <li><code>apptainer run --nv img.sif</code> -&gt; This is the command that actually runs the container we have created. <code>img.sif</code> is the image we will be generating.</li>
 </ul>
@@ -58,7 +58,7 @@
   requirements.txt .
 </code></pre></li>
 </ul>
-<p>This makes the 2 files available in <code>.</code> (the main folder of the image).</p>
+<p>This makes the 2 files available in <code>&quot;.&quot;</code> (the main folder of the image).</p>
 <ul>
 <li>
 <pre tabindex="0"><code class="language-%environment" data-lang="%environment">  export PATH=&#34;$PATH:&#34;
