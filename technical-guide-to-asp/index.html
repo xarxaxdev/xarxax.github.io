@@ -6,7 +6,7 @@
 	<link rel='alternate' type='application/rss+xml' title="Xarxax.xyz RSS" href='/index.xml'>
 	<link rel='stylesheet' type='text/css' href='/style.css'>
 	<link rel="icon" href="/favicon.ico">
-	<meta name="description" content="Here I will go over the main reasons for using ASP, syntax, and best practices. Feel free to check my github repo for working examples (if this is useful to you, consider dropping a star).
+	<meta name="description" content="Here I will go over the main reasons for using ASP, syntax, and best practices. Feel free to check my github repo for working examples (if this is useful to you, consider dropping a star). All the specific syntax I use is from clingo.
 What problem does an ASP solve? ASP is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability).">
 	<meta name="keywords" content="technology, tutorial">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +19,11 @@ What problem does an ASP solve? ASP is, as the wiki page states, a good approach
 <article>
 
 <p>Here I will go over the main reasons for using ASP, syntax, and best practices.
-Feel free to check my <a href="https://github.com/xarxaxdev/asp_implementations">github repo</a> for working examples (if this is useful to you, consider dropping a star).</p>
+Feel free to check my <a href="https://github.com/xarxaxdev/asp_implementations">github repo</a> for working examples (if this is useful to you, consider dropping a star). All the specific syntax I use is from clingo.</p>
 <h1 id="what-problem-does-an-asp-solve">What problem does an ASP solve?</h1>
 <p><a href="https://en.wikipedia.org/wiki/Answer_set_programming">ASP</a> is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability). In a more practical way, we write programs that are lists of rules; then we let a solver find solution/s that satisfy <strong>all rules</strong>.</p>
 <h1 id="what-does-it-mean-to-satisfy-all-rules">What does it mean to satisfy all rules?</h1>
-<p>All rules are in the shape <code>head :- body</code> which roughly translates to the logic statement <code>head &lt;- body</code>, which is a logical equivalence to <code>head or not(body)</code>. To satisfy all rules is then equivalent to find a set of variables that either a head, or not the body.</p>
+<p>All rules are in the shape <code>head :- body</code> which roughly translates to the logic statement <code>head &lt;- body</code>, which is a logical equivalence to <code>head or not(body)</code>. To satisfy all rules is then equivalent to find a set of variables such that for each rule either the head is true, or the body is false .</p>
 <p>If you come from Prolog this is extremely familiar; the advantage being that ASP can deal with circular loops.</p>
 <h1 id="syntax">Syntax</h1>
 <p>Let&rsquo;s go over practical, concise explanations on semantics:</p>

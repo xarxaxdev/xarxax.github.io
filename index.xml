@@ -17,11 +17,11 @@
 		
 		<guid>http://xarxax.xyz/technical-guide-to-asp/</guid>
 		<description>&lt;p&gt;Here I will go over the main reasons for using ASP, syntax, and best practices.
-Feel free to check my &lt;a href=&#34;https://github.com/xarxaxdev/asp_implementations&#34;&gt;github repo&lt;/a&gt; for working examples (if this is useful to you, consider dropping a star).&lt;/p&gt;
+Feel free to check my &lt;a href=&#34;https://github.com/xarxaxdev/asp_implementations&#34;&gt;github repo&lt;/a&gt; for working examples (if this is useful to you, consider dropping a star). All the specific syntax I use is from clingo.&lt;/p&gt;
 &lt;h1 id=&#34;what-problem-does-an-asp-solve&#34;&gt;What problem does an ASP solve?&lt;/h1&gt;
 &lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Answer_set_programming&#34;&gt;ASP&lt;/a&gt; is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability). In a more practical way, we write programs that are lists of rules; then we let a solver find solution/s that satisfy &lt;strong&gt;all rules&lt;/strong&gt;.&lt;/p&gt;
 &lt;h1 id=&#34;what-does-it-mean-to-satisfy-all-rules&#34;&gt;What does it mean to satisfy all rules?&lt;/h1&gt;
-&lt;p&gt;All rules are in the shape &lt;code&gt;head :- body&lt;/code&gt; which roughly translates to the logic statement &lt;code&gt;head &amp;lt;- body&lt;/code&gt;, which is a logical equivalence to &lt;code&gt;head or not(body)&lt;/code&gt;. To satisfy all rules is then equivalent to find a set of variables that either a head, or not the body.&lt;/p&gt;
+&lt;p&gt;All rules are in the shape &lt;code&gt;head :- body&lt;/code&gt; which roughly translates to the logic statement &lt;code&gt;head &amp;lt;- body&lt;/code&gt;, which is a logical equivalence to &lt;code&gt;head or not(body)&lt;/code&gt;. To satisfy all rules is then equivalent to find a set of variables such that for each rule either the head is true, or the body is false .&lt;/p&gt;
 &lt;p&gt;If you come from Prolog this is extremely familiar; the advantage being that ASP can deal with circular loops.&lt;/p&gt;
 &lt;h1 id=&#34;syntax&#34;&gt;Syntax&lt;/h1&gt;
 &lt;p&gt;Let&amp;rsquo;s go over practical, concise explanations on semantics:&lt;/p&gt;
