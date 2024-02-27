@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Technical Guide to Answer Set Programming | Xarxax.xyz</title>
+	<link rel="canonical" href="http://xarxax.xyz">
+	<link rel='alternate' type='application/rss+xml' title="Xarxax.xyz RSS" href='/index.xml'>
+	<link rel='stylesheet' type='text/css' href='/style.css'>
+	<link rel="icon" href="/favicon.ico">
+	<meta name="description" content="Here I will go over the main reasons for using ASP, syntax, and best practices. Feel free to check my github repo for working examples (if this is useful to you, consider dropping a star).
+What problem does an ASP solve? ASP is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability).">
+	<meta name="keywords" content="technology, tutorial">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="robots" content="index, follow">
+	<meta charset="utf-8">
+</head>
+<body>
+<main>
+<header><h1 id="tag_Technical Guide to Answer Set Programming">Technical Guide to Answer Set Programming</h1></header>
+<article>
+
+<p>Here I will go over the main reasons for using ASP, syntax, and best practices.
+Feel free to check my <a href="https://github.com/xarxaxdev/asp_implementations">github repo</a> for working examples (if this is useful to you, consider dropping a star).</p>
+<h1 id="what-problem-does-an-asp-solve">What problem does an ASP solve?</h1>
+<p><a href="https://en.wikipedia.org/wiki/Answer_set_programming">ASP</a> is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability). In a more practical way, we write programs that are lists of rules; then we let a solver find solution/s that satisfy <strong>all rules</strong>.</p>
+<h1 id="what-does-it-mean-to-satisfy-all-rules">What does it mean to satisfy all rules?</h1>
+<p>All rules are in the shape <code>head :- body</code> which roughly translates to the logic statement <code>head &lt;- body</code>, which is a logical equivalence to <code>head or not(body)</code>. To satisfy all rules is then equivalent to find a set of variables that either a head, or not the body.</p>
+<p>If you come from Prolog this is extremely familiar; the advantage being that ASP can deal with circular loops.</p>
+<h1 id="syntax">Syntax</h1>
+<p>Let&rsquo;s go over practical, concise explanations on semantics:</p>
+<dl>
+<dt><code>head &lt;- rule.</code></dt>
+<dd>head is part of a solution if rule is part of a solution</dd>
+<dt><code>head &lt;-.</code></dt>
+<dd>head is part of a solution (always)</dd>
+<dt><code> &lt;- rule.</code></dt>
+<dd>rule cannot be part of the solution</dd>
+<dt><code>{head }&lt;- rule.</code></dt>
+<dd>head is (or not) a part of a solution if rule is a part of a solution</dd>
+<dt><code>head &lt;- {rule1;rule2}.</code></dt>
+<dd>head is a part of a solution if rule1 OR rule2 is a part of a solution</dd>
+<dt><code>{head1;head2} &lt;- rule.</code></dt>
+<dd>head1  or head2 are a part of a solution if rule is a part of a solution. We can read the <code>;</code> as an OR.</dd>
+<dt><code>L{head1;head2;head3}U &lt;- rule.</code></dt>
+<dd>[L,U] heads are a part of a solution if rule is a part of a solution</dd>
+</dl>
+<h1 id="syntax-extension-with-variables">Syntax extension with variables</h1>
+<dl>
+<dt><code>L{var_head_1(A,B):var(B);var_head_2(A,C):var(C)}U &lt;- var_body(A).</code></dt>
+<dd>for every var_body(A) we guessi a total of [L,U] (summing var_head_1 and var_head_2) are a part of a solution. Each <code>var_head_1(A,B)</code> needs there to be a corresponding <code>var(B)</code>(and the same applies to <code>(var_head_2(A,C)</code> and <code>var(C)</code>). We can read the <code>:</code> as &ldquo;such that&rdquo;.</dd>
+</dl>
+<h1 id="debugging-asp-problems">Debugging ASP problems</h1>
+<h3 id="general-methodology">General methodology</h3>
+<p>It is just good practice to use the methodology <a href="https://teaching.potassco.org/">officially recomended</a>. The approach suggested is called generate (rules with <code>{}</code> on the head) and test (rules of the shape <code>:-body</code>). Generate refers to the fact that, in the simplest of cases <code>{a}.</code>, the solver will clone every pre-existing solution that didn&rsquo;t have <code>a</code> and add <code>a</code> to it (if <code>a</code> had not been referenced, duplicating the solutions).</p>
+<p>I will add to this methodology that implications <code>head :- body</code> by themselves only extend the current solution by <em>sometimes</em> deducing some variables. If we had 3 solutions prior to an implication, we will keep the same solutions with some more variables on them.</p>
+<h3 id="common-pitfalls">Common pitfalls</h3>
+<p><em>I want to create the pairs of different numbers between 1 and 2. I have <code>num(1).num(2).</code></em></p>
+<ul>
+<li>Wrong solution <code>pair(A,B):- num(A),num(B)</code>.</li>
+<li>Correct solution <code>pair(A,B):- num(A),num(B),A!=B</code>.</li>
+<li>Reason: The body <code>num(A),num(B)</code> will be generated for EVERY possible combination of A and B. If the body was <code>num(A),num(A)</code> we have forced the variable substitution to be the same, but when using difference variables we have to manually enforce it.</li>
+</ul>
+<p><em>I am getting too many incorrect solutions</em></p>
+<ul>
+<li>That is the easiest thing to solve; when you run <code>clingo</code> you can check which invalid solutions appear, and looking at your program you should be able to infer which constraints (<code>:-body.</code>) have to be more restrictive or new ones to add.</li>
+</ul>
+<p><em>Now I am getting an UNSAT</em></p>
+<ul>
+<li>UNSAT have to be caused by constraints. What you can do is add a head <code>error(&quot;error text&quot;)</code> as a head of a <code>:-body</code> constraint. Next you can add (probably at the end of the program) a constraint of the shape <code>:-error(_).</code>. To identify which constraint is too restrictive, you can test commenting the head  <code>error(&quot;error text&quot;)</code> of the particular error you are testing. If a constraint is filtering all your solutions; it is too restrictive or you were not generating enough solutions.</li>
+</ul>
+<p><em>Let me create this relation that uses 6+ terms and expresses perfectly all the constraints of the problem</em></p>
+<ul>
+<li>Wrong solution: using long rules in general.</li>
+<li>Correct solution: split into smaller implications and relations</li>
+<li>Reason: #1 it becomes very difficult to identify what exact part of the rule is the one that is breaking. #2 there are rarely relations with so many prerequisites. #3 heads are generated according to the <strong>combinations</strong> of bodies they have. You are greatly increasing the complexity of the problem.</li>
+</ul>
+<p><em>My program never finishes</em></p>
+<ul>
+<li>You probably have an incremental loop with no ceiling in a rule like this: <code>var(I+1):-var(I)</code>(or the increment involves several rules). A quick test of who is at fault is to add a reasonable cap (100 iterations should be instantaneous) and see if it terminates.</li>
+</ul>
+<h3 id="efficiency-tricks">Efficiency tricks</h3>
+<p>Generally speaking, the easiest way to increase efficiency is to generate less <strong>possible</strong> variables. Lets use an example from the <a href="https://github.com/xarxaxdev/asp_implementations">github</a> on robots.</p>
+<p>A specific (but very common) example:</p>
+<p><em>Robots doing some tasks in a map represented by edges edge(Node1,Node2). There is also a time T.</em></p>
+<ol>
+<li><em>Robots on a map can move to somewhere adjacent.</em></li>
+</ol>
+<ul>
+<li>Inefficient solution:</li>
+</ul>
+<pre tabindex="0"><code>{at(R,N2,T+1)}=1:-at(R,N1,T)} ,time(T+1).% a robot will be exactly at one place at a time
+:- at(R,N2,T+1),at(R,N1,T),edge(N1,N2) . % no teleporting
+</code></pre><ul>
+<li>Efficient solution</li>
+</ul>
+<pre tabindex="0"><code>{at(R,N2,T): edge(N1,N2);at(R,N1,T)}=1 :- at(R,N1,T-1),time(T).% a robot will exactly be at one adjactent place at a time
+</code></pre><ul>
+<li>Reason: The inefficient solution HAS to generate every possible combination (Robot,Node,Time) which grows cubicly with the problem. The efficient version allows only to generate the adjacent variables.</li>
+</ul>
+<ol start="2">
+<li><em>These robots have to do a series of tasks in a certain order.</em></li>
+</ol>
+<ul>
+<li>Inefficient version</li>
+</ul>
+<pre tabindex="0"><code>can_be_done(J,O,T2):- %operation O of job J can be done at T2
+	operation(J,O-1,_),%the previous operation exists
+	done(J,O-1,T1),time(T2),T1&lt;T2.% previos was finished before
+</code></pre><ul>
+<li>Efficient version</li>
+</ul>
+<pre tabindex="0"><code>done(J,O,T) :- done(J,O,T-1),time(T).
+can_be_done(J,O,T2):- %operation O of job J can be done at T2
+	operation(J,O-1,_),%the previous operation exists
+	done(J,O-1,T2-1).% previos was finished before
+</code></pre><ul>
+<li>Reason: The inefficient version has to check every combination T1,T2; this is very inefficient as bit T values happen. In the efficient version, we generate a lot more &ldquo;superfluous&rdquo; <code>done(_,_,_)</code> statements; however that reduces the dimensionality of <code>can_be_done</code>.</li>
+</ul>
+<h1 id="donation">Donation</h1>
+<div class=donatecontainer>
+<div class=donateinfo>
+<div class=donatetext>
+<img alt="" style="max-height:1em;max-width:1em;display:inline" src=/monero_logo.svg> Monero <br>
+<code style="font-size:xx-small;overflow-wrap:break-word;">49va5kaQ8qzQjfNpTjURwiFR9Zh1uQQsT5cbnnur2NUsfzCbU1QQ2tG3PhdeapEGFTLuGMcx46ss6grJTKKFfP8EC1ePk9M</code><br>
+</div>
+<a href=/monero_qr.png><img alt="Monero QR Code" class=qr src=/monero_qr.png></a>
+</div>
+<div class=donateinfo>
+<div class=donatetext>
+Paypal
+</div>
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="E5HDXF4XG2GFC" />
+<input type="image" src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/en_DE/i/scr/pixel.gif" width="1" height="1" />
+</form>
+<a href=/paypal_qr.png><img alt="PayPal QR Code" class=qr src=/paypal_qr.png></a>
+</div>
+
+</div>
+
+</div>
+
+
+
+<div id="nextprev">
+<a href="/training-ai-models-potsdam-university/"><div id="prevart">Previous:<br>Training AI Models at the Potsdam University Cluster</div></a>
+</div>
+<div style="clear:both" class=taglist>Related<br><a id="tag_technology" href="http://xarxax.xyz/tags/technology">Technology</a> &middot; <a id="tag_tutorial" href="http://xarxax.xyz/tags/tutorial">Tutorial</a></div>
+</article>
+</main>
+
+<footer>
+	<a href="http://xarxax.xyz">http://xarxax.xyz</a><br><br><a href="/index.xml"><img src="/rss.svg" style="max-height:1.5em" alt="RSS Feed" title="Subscribe via RSS for updates."></a>
+</footer>
+
+</body>
+</html>

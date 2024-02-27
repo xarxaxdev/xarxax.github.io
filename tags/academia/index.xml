@@ -11,6 +11,137 @@
 	
 	
 	<item>
+		<title>Technical Guide to Answer Set Programming</title>
+		<link>http://xarxax.xyz/technical-guide-to-asp/</link>
+		<pubDate>Tue, 27 Feb 2024 20:07:02 +0100</pubDate>
+		
+		<guid>http://xarxax.xyz/technical-guide-to-asp/</guid>
+		<description>&lt;p&gt;Here I will go over the main reasons for using ASP, syntax, and best practices.
+Feel free to check my &lt;a href=&#34;https://github.com/xarxaxdev/asp_implementations&#34;&gt;github repo&lt;/a&gt; for working examples (if this is useful to you, consider dropping a star).&lt;/p&gt;
+&lt;h1 id=&#34;what-problem-does-an-asp-solve&#34;&gt;What problem does an ASP solve?&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Answer_set_programming&#34;&gt;ASP&lt;/a&gt; is, as the wiki page states, a good approach to solving NP-hard problems where we want to establish a search space and let a solver find a solution without having to design an algorithm (but keeping some explainability). In a more practical way, we write programs that are lists of rules; then we let a solver find solution/s that satisfy &lt;strong&gt;all rules&lt;/strong&gt;.&lt;/p&gt;
+&lt;h1 id=&#34;what-does-it-mean-to-satisfy-all-rules&#34;&gt;What does it mean to satisfy all rules?&lt;/h1&gt;
+&lt;p&gt;All rules are in the shape &lt;code&gt;head :- body&lt;/code&gt; which roughly translates to the logic statement &lt;code&gt;head &amp;lt;- body&lt;/code&gt;, which is a logical equivalence to &lt;code&gt;head or not(body)&lt;/code&gt;. To satisfy all rules is then equivalent to find a set of variables that either a head, or not the body.&lt;/p&gt;
+&lt;p&gt;If you come from Prolog this is extremely familiar; the advantage being that ASP can deal with circular loops.&lt;/p&gt;
+&lt;h1 id=&#34;syntax&#34;&gt;Syntax&lt;/h1&gt;
+&lt;p&gt;Let&amp;rsquo;s go over practical, concise explanations on semantics:&lt;/p&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;code&gt;head &amp;lt;- rule.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;head is part of a solution if rule is part of a solution&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt;head &amp;lt;-.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;head is part of a solution (always)&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt; &amp;lt;- rule.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;rule cannot be part of the solution&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt;{head }&amp;lt;- rule.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;head is (or not) a part of a solution if rule is a part of a solution&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt;head &amp;lt;- {rule1;rule2}.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;head is a part of a solution if rule1 OR rule2 is a part of a solution&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt;{head1;head2} &amp;lt;- rule.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;head1  or head2 are a part of a solution if rule is a part of a solution. We can read the &lt;code&gt;;&lt;/code&gt; as an OR.&lt;/dd&gt;
+&lt;dt&gt;&lt;code&gt;L{head1;head2;head3}U &amp;lt;- rule.&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;[L,U] heads are a part of a solution if rule is a part of a solution&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;h1 id=&#34;syntax-extension-with-variables&#34;&gt;Syntax extension with variables&lt;/h1&gt;
+&lt;dl&gt;
+&lt;dt&gt;&lt;code&gt;L{var_head_1(A,B):var(B);var_head_2(A,C):var(C)}U &amp;lt;- var_body(A).&lt;/code&gt;&lt;/dt&gt;
+&lt;dd&gt;for every var_body(A) we guessi a total of [L,U] (summing var_head_1 and var_head_2) are a part of a solution. Each &lt;code&gt;var_head_1(A,B)&lt;/code&gt; needs there to be a corresponding &lt;code&gt;var(B)&lt;/code&gt;(and the same applies to &lt;code&gt;(var_head_2(A,C)&lt;/code&gt; and &lt;code&gt;var(C)&lt;/code&gt;). We can read the &lt;code&gt;:&lt;/code&gt; as &amp;ldquo;such that&amp;rdquo;.&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;h1 id=&#34;debugging-asp-problems&#34;&gt;Debugging ASP problems&lt;/h1&gt;
+&lt;h3 id=&#34;general-methodology&#34;&gt;General methodology&lt;/h3&gt;
+&lt;p&gt;It is just good practice to use the methodology &lt;a href=&#34;https://teaching.potassco.org/&#34;&gt;officially recomended&lt;/a&gt;. The approach suggested is called generate (rules with &lt;code&gt;{}&lt;/code&gt; on the head) and test (rules of the shape &lt;code&gt;:-body&lt;/code&gt;). Generate refers to the fact that, in the simplest of cases &lt;code&gt;{a}.&lt;/code&gt;, the solver will clone every pre-existing solution that didn&amp;rsquo;t have &lt;code&gt;a&lt;/code&gt; and add &lt;code&gt;a&lt;/code&gt; to it (if &lt;code&gt;a&lt;/code&gt; had not been referenced, duplicating the solutions).&lt;/p&gt;
+&lt;p&gt;I will add to this methodology that implications &lt;code&gt;head :- body&lt;/code&gt; by themselves only extend the current solution by &lt;em&gt;sometimes&lt;/em&gt; deducing some variables. If we had 3 solutions prior to an implication, we will keep the same solutions with some more variables on them.&lt;/p&gt;
+&lt;h3 id=&#34;common-pitfalls&#34;&gt;Common pitfalls&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;I want to create the pairs of different numbers between 1 and 2. I have &lt;code&gt;num(1).num(2).&lt;/code&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Wrong solution &lt;code&gt;pair(A,B):- num(A),num(B)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Correct solution &lt;code&gt;pair(A,B):- num(A),num(B),A!=B&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Reason: The body &lt;code&gt;num(A),num(B)&lt;/code&gt; will be generated for EVERY possible combination of A and B. If the body was &lt;code&gt;num(A),num(A)&lt;/code&gt; we have forced the variable substitution to be the same, but when using difference variables we have to manually enforce it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;I am getting too many incorrect solutions&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;That is the easiest thing to solve; when you run &lt;code&gt;clingo&lt;/code&gt; you can check which invalid solutions appear, and looking at your program you should be able to infer which constraints (&lt;code&gt;:-body.&lt;/code&gt;) have to be more restrictive or new ones to add.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Now I am getting an UNSAT&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;UNSAT have to be caused by constraints. What you can do is add a head &lt;code&gt;error(&amp;quot;error text&amp;quot;)&lt;/code&gt; as a head of a &lt;code&gt;:-body&lt;/code&gt; constraint. Next you can add (probably at the end of the program) a constraint of the shape &lt;code&gt;:-error(_).&lt;/code&gt;. To identify which constraint is too restrictive, you can test commenting the head  &lt;code&gt;error(&amp;quot;error text&amp;quot;)&lt;/code&gt; of the particular error you are testing. If a constraint is filtering all your solutions; it is too restrictive or you were not generating enough solutions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;Let me create this relation that uses 6+ terms and expresses perfectly all the constraints of the problem&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Wrong solution: using long rules in general.&lt;/li&gt;
+&lt;li&gt;Correct solution: split into smaller implications and relations&lt;/li&gt;
+&lt;li&gt;Reason: #1 it becomes very difficult to identify what exact part of the rule is the one that is breaking. #2 there are rarely relations with so many prerequisites. #3 heads are generated according to the &lt;strong&gt;combinations&lt;/strong&gt; of bodies they have. You are greatly increasing the complexity of the problem.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;My program never finishes&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You probably have an incremental loop with no ceiling in a rule like this: &lt;code&gt;var(I+1):-var(I)&lt;/code&gt;(or the increment involves several rules). A quick test of who is at fault is to add a reasonable cap (100 iterations should be instantaneous) and see if it terminates.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;efficiency-tricks&#34;&gt;Efficiency tricks&lt;/h3&gt;
+&lt;p&gt;Generally speaking, the easiest way to increase efficiency is to generate less &lt;strong&gt;possible&lt;/strong&gt; variables. Lets use an example from the &lt;a href=&#34;https://github.com/xarxaxdev/asp_implementations&#34;&gt;github&lt;/a&gt; on robots.&lt;/p&gt;
+&lt;p&gt;A specific (but very common) example:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Robots doing some tasks in a map represented by edges edge(Node1,Node2). There is also a time T.&lt;/em&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Robots on a map can move to somewhere adjacent.&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Inefficient solution:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{at(R,N2,T+1)}=1:-at(R,N1,T)} ,time(T+1).% a robot will be exactly at one place at a time
+:- at(R,N2,T+1),at(R,N1,T),edge(N1,N2) . % no teleporting
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Efficient solution&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{at(R,N2,T): edge(N1,N2);at(R,N1,T)}=1 :- at(R,N1,T-1),time(T).% a robot will exactly be at one adjactent place at a time
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Reason: The inefficient solution HAS to generate every possible combination (Robot,Node,Time) which grows cubicly with the problem. The efficient version allows only to generate the adjacent variables.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;em&gt;These robots have to do a series of tasks in a certain order.&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Inefficient version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;can_be_done(J,O,T2):- %operation O of job J can be done at T2
+	operation(J,O-1,_),%the previous operation exists
+	done(J,O-1,T1),time(T2),T1&amp;lt;T2.% previos was finished before
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Efficient version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;done(J,O,T) :- done(J,O,T-1),time(T).
+can_be_done(J,O,T2):- %operation O of job J can be done at T2
+	operation(J,O-1,_),%the previous operation exists
+	done(J,O-1,T2-1).% previos was finished before
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;Reason: The inefficient version has to check every combination T1,T2; this is very inefficient as bit T values happen. In the efficient version, we generate a lot more &amp;ldquo;superfluous&amp;rdquo; &lt;code&gt;done(_,_,_)&lt;/code&gt; statements; however that reduces the dimensionality of &lt;code&gt;can_be_done&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;donation&#34;&gt;Donation&lt;/h1&gt;
+&lt;div class=donatecontainer&gt;
+&lt;div class=donateinfo&gt;
+&lt;div class=donatetext&gt;
+&lt;img alt=&#34;&#34; style=&#34;max-height:1em;max-width:1em;display:inline&#34; src=http://xarxax.xyz/monero_logo.svg&gt; Monero &lt;br&gt;
+&lt;code style=&#34;font-size:xx-small;overflow-wrap:break-word;&#34;&gt;49va5kaQ8qzQjfNpTjURwiFR9Zh1uQQsT5cbnnur2NUsfzCbU1QQ2tG3PhdeapEGFTLuGMcx46ss6grJTKKFfP8EC1ePk9M&lt;/code&gt;&lt;br&gt;
+&lt;/div&gt;
+&lt;a href=http://xarxax.xyz/monero_qr.png&gt;&lt;img alt=&#34;Monero QR Code&#34; class=qr src=http://xarxax.xyz/monero_qr.png&gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=donateinfo&gt;
+&lt;div class=donatetext&gt;
+Paypal
+&lt;/div&gt;
+&lt;form action=&#34;https://www.paypal.com/donate&#34; method=&#34;post&#34; target=&#34;_top&#34;&gt;
+&lt;input type=&#34;hidden&#34; name=&#34;hosted_button_id&#34; value=&#34;E5HDXF4XG2GFC&#34; /&gt;
+&lt;input type=&#34;image&#34; src=&#34;https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif&#34; border=&#34;0&#34; name=&#34;submit&#34; title=&#34;PayPal - The safer, easier way to pay online!&#34; alt=&#34;Donate with PayPal button&#34; /&gt;
+&lt;img alt=&#34;&#34; border=&#34;0&#34; src=&#34;https://www.paypal.com/en_DE/i/scr/pixel.gif&#34; width=&#34;1&#34; height=&#34;1&#34; /&gt;
+&lt;/form&gt;
+&lt;a href=http://xarxax.xyz/paypal_qr.png&gt;&lt;img alt=&#34;PayPal QR Code&#34; class=qr src=http://xarxax.xyz/paypal_qr.png&gt;&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+</description>
+	</item>
+	
+	<item>
 		<title>Training AI Models at the Potsdam University Cluster</title>
 		<link>http://xarxax.xyz/training-ai-models-potsdam-university/</link>
 		<pubDate>Thu, 18 Jan 2024 01:06:51 +0100</pubDate>
